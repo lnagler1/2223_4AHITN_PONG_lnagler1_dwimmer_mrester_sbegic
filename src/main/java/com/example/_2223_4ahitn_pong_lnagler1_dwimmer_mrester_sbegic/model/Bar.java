@@ -1,4 +1,4 @@
-package com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.Classes;
+package com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model;
 
 import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.PlayField;
 import javafx.scene.canvas.GraphicsContext;

@@ -1,12 +1,11 @@
 package com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.Controller;
 
-import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.Classes.Bar;
+import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.Bar;
 import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.PlayField;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
