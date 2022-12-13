@@ -46,7 +46,7 @@ public class GameController {
             this.height = 600;
         } else if (screenWidth <= 1920 && screenHeight <= 1080) {
             this.width = 1000;
-            this.height = 800;
+            this.height = 700;
         }
         System.out.println(screenWidth);
     }
