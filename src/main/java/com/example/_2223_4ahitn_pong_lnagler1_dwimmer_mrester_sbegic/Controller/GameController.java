@@ -1,5 +1,6 @@
 package com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.Controller;
 
+import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.Ball;
 import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.PlayField;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -18,8 +19,9 @@ public class GameController {
 
     public void loadPlayField() {
         setWidthAndHeight();
+        PlayField playField = PlayField.getInstance();
         Group root = new Group();
-        Canvas canvas = new Canvas(width, height);
+        Canvas canvas = new Canvas(playField.getWidth(), playField.getHeight());
         root.getChildren().add(canvas);
         Stage stage = new Stage();
         stage.setTitle("Pong");
@@ -33,20 +35,24 @@ public class GameController {
 
 
     public void startGame() {
-        PlayField playField = new PlayField();
-        playField.setBackground(graphicsContext, width, height);
+        PlayField playField = PlayField.getInstance();
+        Ball ball = new Ball();
+        playField.setGc(graphicsContext);
+        playField.setBackground();
+        ball.setBall();
     }
 
-    public void setWidthAndHeight() {
+    public void setWidthAndHeight(){
+        PlayField playField = PlayField.getInstance();
         if (screenWidth <= 800 && screenHeight <= 600) {
-            this.width = 600;
-            this.height = 400;
+            playField.setWidth(600);
+            playField.setHeight(400);
         } else if (screenWidth <= 1280 && screenHeight <= 768) {
-            this.width = 800;
-            this.height = 600;
+            playField.setWidth(800);
+            playField.setHeight(600);
         } else if (screenWidth <= 1920 && screenHeight <= 1080) {
-            this.width = 1000;
-            this.height = 800;
+            playField.setWidth(1000);
+            playField.setHeight(700);
         }
         System.out.println(screenWidth);
     }
