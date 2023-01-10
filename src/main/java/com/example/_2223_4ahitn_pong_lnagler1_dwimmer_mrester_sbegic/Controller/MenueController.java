@@ -92,7 +92,7 @@ public class MenueController {
                 player2 = new Player(name, my_dict.get(color));
                 stage.close();
             }
-            GameController g = new GameController();
+            GameController g = new GameController(player1, player2);
             g.loadPlayField();
         }
     }
