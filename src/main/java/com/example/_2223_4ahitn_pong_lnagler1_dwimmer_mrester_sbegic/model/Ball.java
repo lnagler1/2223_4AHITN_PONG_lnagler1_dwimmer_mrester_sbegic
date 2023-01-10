@@ -3,6 +3,8 @@ package com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+import java.awt.*;
+
 public class Ball {
     PlayField playField = PlayField.getInstance();
     private int radius;
@@ -11,11 +13,10 @@ public class Ball {
     private int xBallPosition = playField.getWidth() / 2;
     private int yBallPosition = playField.getHeight() / 2;
 
-    public void setBall() {
+    public void setBall(GraphicsContext gc) {
         setRadius();
-        GraphicsContext gc = playField.getGc();
         gc.setFill(Color.BLUE);
-        gc.fillOval(xBallPosition, yBallPosition, radius, radius);
+        gc.fillRoundRect(xBallPosition, yBallPosition, radius, radius, 90, 90);
     }
 
 

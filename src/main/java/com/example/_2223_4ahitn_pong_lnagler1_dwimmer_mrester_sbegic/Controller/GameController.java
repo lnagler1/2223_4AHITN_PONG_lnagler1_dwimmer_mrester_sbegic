@@ -37,13 +37,13 @@ public class GameController {
     private GraphicsContext graphicsContext;
     Canvas canvas;
     PlayField playField = PlayField.getInstance();
-    Ball ball = new Ball();
+    Ball ball;
 
     private Bar bar = new Bar();
 
     public void loadPlayField() {
         setWidthAndHeight();
-        PlayField playField = PlayField.getInstance();
+        ball = new Ball();
         Group root = new Group();
         canvas = new Canvas(playField.getWidth(), playField.getHeight());
         root.getChildren().add(canvas);
@@ -59,19 +59,23 @@ public class GameController {
 
 
     public void startGame() {
+        PlayField playField = PlayField.getInstance();
 
         playField.setGc(graphicsContext);
         playField.setBackground();
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), e -> run(graphicsContext)));
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(10), e -> run(graphicsContext)));
         timeline.setCycleCount(Timeline.INDEFINITE);
         canvas.setOnMouseClicked(e -> gameStarted = true);
         timeline.play();
     }
 
     private void run(GraphicsContext gc) {
-        playField.setBackground();
+        gc.setFill(Color.BLACK);
+        gc.fillRoundRect(ball.getxBallPostition(), ball.getyBallPosition(), ball.getRadius(), ball.getRadius(), 0, 0);
+
 
         int xBallPosition = ball.getxBallPostition();
+        System.out.println(xBallPosition);
         int yBallPosition = ball.getyBallPosition();
         int xBallSpeed = ball.getxBallSpeed();
         int yBallSpeed = ball.getyBallSpeed();
@@ -83,27 +87,23 @@ public class GameController {
             ball.setxBallPosition(xBallPosition);
             yBallPosition += yBallSpeed;
             ball.setyBallPosition(yBallPosition);
-            System.out.println(ball.getxBallPostition());
-            ball.setBall();
+            ball.setBall(gc);
             if (xBallPosition < width - (width / 4)) {
                 // set the bar on yBallPosition - height of bar / 2
             } else {
                 // yBarPosition = yBallPosition > yBarPosition + barHeight / 2 ?yBarPosition +=1: yBarPosition - 1;
             }
         } else {
-            Effect glow = new Glow(100.0);
-            gc.setEffect(glow);
-            gc.setStroke(Color.ORANGE);
-            gc.setTextAlign(TextAlignment.CENTER);
-            gc.setFont(Font.font(java.awt.Font.SERIF, 46));
-            gc.strokeText("Click to start", width / 2, height / 2);
             xBallPosition = width / 2;
             yBallPosition = height / 2;
             xBallSpeed = new Random().nextInt(2) == 0 ? 1 : -1;
             yBallSpeed = new Random().nextInt(2) == 0 ? 1 : -1;
         }
-        if (yBallPosition > height || yBallPosition < 0) {
-            yBallSpeed *= -1;
+        if ((yBallPosition + ball.getRadius()) > height || yBallPosition < 0) {
+            ball.setyBallSpeed(yBallSpeed * -1);
+        }
+        if (xBallPosition > width || xBallPosition < 0) {
+            ball.setxBallSpeed(xBallSpeed * -1);
         }
         /*if (xBallPosition < 'xBarPositionPlayer1' - 'BarWidth'){
             scoreP2++;
@@ -127,7 +127,7 @@ public class GameController {
         gc.fillText(scoreP1 + " " + scoreP2, width / 2, 100);
         ;
         bar.setBar(graphicsContext);
-        ball.setBall();
+        ball.setBall(gc);
     }
 
     public void setWidthAndHeight() {
