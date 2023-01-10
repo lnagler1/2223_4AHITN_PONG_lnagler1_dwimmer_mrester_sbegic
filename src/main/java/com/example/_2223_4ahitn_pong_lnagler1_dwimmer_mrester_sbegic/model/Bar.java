@@ -7,8 +7,13 @@ public class Bar {
     private double length;
     private double width;
     private final Color color;
+    private double leftRectXCord;
+    private double leftRectYCord;
+    private double rightRectXCord;
+    private double rightRectYCord;
 
     private PlayField playField = PlayField.getInstance();
+    //private Ball ball = Ball.getInstace();
 
     public Bar() {
         this.length = 0;
@@ -18,10 +23,20 @@ public class Bar {
 
     public void setBar(GraphicsContext graphicsContext) {
         graphicsContext.setFill(this.color);
-        graphicsContext.fillRect(this.width, playField.height / 2 - this.length / 2, this.width, this.length);
+        graphicsContext.fillRect(leftRectXCord, leftRectYCord, this.width, this.length);
 
         graphicsContext.setFill(this.color);
-        graphicsContext.fillRect(playField.width - this.width * 2, playField.height / 2 - this.length / 2, this.width, this.length);
+        graphicsContext.fillRect(rightRectXCord, rightRectYCord, this.width, this.length);
+    }
+
+    public void checkContact2Ball() {
+       /* if (ball.getxCords() == this.leftRectXCord && ball.getYCords() == this.leftRectYCord){
+            // play Pong sound
+            // shoot ball in random opposite direction in a certain angle based on the point of impact on the bar
+        } else if (ball.getxCords() == this.rightRectXCord && ball.getYCords() == this.rightRectYCord){
+            // play Pong sound
+            // shoot ball in random opposite direction in a certain angle based on the point of impact on the bar
+        } */
     }
 
     public double getLenght() {
@@ -38,5 +53,39 @@ public class Bar {
 
     public void setWidht(int widht) {
         this.width = widht;
+    }
+
+
+    public double getLeftRectXCord() {
+        return leftRectXCord;
+    }
+
+    public void setLeftRectXCord() {
+        this.leftRectXCord = this.width;
+    }
+
+    public double getLeftRectYCord() {
+        return leftRectYCord;
+    }
+
+    public void setLeftRectYCord() {
+        this.leftRectYCord = playField.height / 2 - this.length / 2;
+    }
+
+    public double getRightRectXCord() {
+        return rightRectXCord;
+    }
+
+    public void setRightRectXCord() {
+        this.rightRectXCord = playField.width - this.width * 2;
+    }
+
+
+    public double getRightRectYCord() {
+        return rightRectYCord;
+    }
+
+    public void setRightRectYCord() {
+        this.rightRectYCord = playField.height / 2 - this.length / 2;
     }
 }

@@ -66,5 +66,9 @@ public class GameController {
     public void setBarMeassures(int length, int width){
         bar.setLenght(length/4.5);
         bar.setWidht(width/35);
+        bar.setLeftRectXCord();
+        bar.setLeftRectYCord();
+        bar.setRightRectXCord();
+        bar.setRightRectYCord();
     }
 }
