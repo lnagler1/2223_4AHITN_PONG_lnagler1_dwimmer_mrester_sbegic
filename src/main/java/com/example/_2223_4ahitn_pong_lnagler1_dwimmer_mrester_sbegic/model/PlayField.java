@@ -9,39 +9,40 @@ public class PlayField {
     public int height;
     public int width;
     public GraphicsContext gc;
+
     public void setBackground() {
         gc.setFill(Color.BLACK);
-        gc.fillRect(0,0,width,height);
+        gc.fillRect(0, 0, width, height);
         gc.setFill(Color.WHITE);
         gc.setFont(Font.font(25));
     }
 
-    public void setWidth(int width){
+    public void setWidth(int width) {
         this.width = width;
     }
 
-    public int getWidth(){
+    public int getWidth() {
         return this.width;
     }
 
-    public void setHeight(int height){
+    public void setHeight(int height) {
         this.height = height;
     }
 
-    public int getHeight(){
+    public int getHeight() {
         return this.height;
     }
 
-    public void setGc(GraphicsContext graphicsContext){
+    public void setGc(GraphicsContext graphicsContext) {
         this.gc = graphicsContext;
     }
 
-    public GraphicsContext getGc(){
+    public GraphicsContext getGc() {
         return this.gc;
     }
 
-    public static PlayField getInstance(){
-        if (instance == null){
+    public static PlayField getInstance() {
+        if (instance == null) {
             instance = new PlayField();
         }
         return instance;

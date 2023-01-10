@@ -40,7 +40,7 @@ public class GameController {
         setWidthAndHeight();
         PlayField playField = PlayField.getInstance();
         Group root = new Group();
-        canvas = new Canvas(playField.getWidth(),playField.getHeight());
+        canvas = new Canvas(playField.getWidth(), playField.getHeight());
         root.getChildren().add(canvas);
         Stage stage = new Stage();
         stage.setTitle("Pong");
@@ -74,18 +74,18 @@ public class GameController {
         int yBallSpeed = ball.getyBallSpeed();
         int width = playField.getWidth();
         int height = playField.getHeight();
-        if (gameStarted){
+        if (gameStarted) {
             xBallPosition += xBallSpeed;
             ball.setxBallPosition(xBallPosition);
             yBallPosition += yBallSpeed;
             ball.setyBallPosition(yBallPosition);
             ball.setBall();
-            if (xBallPosition < width - (width / 4)){
+            if (xBallPosition < width - (width / 4)) {
                 // set the bar on yBallPosition - height of bar / 2
-            }else {
+            } else {
                 // yBarPosition = yBallPosition > yBarPosition + barHeight / 2 ?yBarPosition +=1: yBarPosition - 1;
             }
-        }else{
+        } else {
             Effect glow = new Glow(100.0);
             gc.setEffect(glow);
             gc.setStroke(Color.ORANGE);
@@ -94,10 +94,10 @@ public class GameController {
             gc.strokeText("Click to start", width / 2, height / 2);
             xBallPosition = width / 2;
             yBallPosition = height / 2;
-            xBallSpeed = new Random().nextInt(2) == 0 ? 1: -1;
-            yBallSpeed = new Random().nextInt(2) == 0 ? 1: -1;
+            xBallSpeed = new Random().nextInt(2) == 0 ? 1 : -1;
+            yBallSpeed = new Random().nextInt(2) == 0 ? 1 : -1;
         }
-        if(yBallPosition > height || yBallPosition < 0){
+        if (yBallPosition > height || yBallPosition < 0) {
             yBallSpeed *= -1;
         }
         /*if (xBallPosition < 'xBarPositionPlayer1' - 'BarWidth'){
@@ -119,10 +119,11 @@ public class GameController {
             xBallSpeed *= -1;
             yBallSpeed *= -1;
         }*/
-        gc.fillText(scoreP1 + " " + scoreP2, width / 2, 100);;
+        gc.fillText(scoreP1 + " " + scoreP2, width / 2, 100);
+        ;
     }
 
-    public void setWidthAndHeight(){
+    public void setWidthAndHeight() {
         PlayField playField = PlayField.getInstance();
         if (screenWidth <= 800 && screenHeight <= 600) {
             playField.setWidth(600);

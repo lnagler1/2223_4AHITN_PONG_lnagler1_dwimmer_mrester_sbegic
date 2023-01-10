@@ -11,7 +11,7 @@ public class Ball {
     private int xBallPosition = playField.getWidth() / 2;
     private int yBallPosition = playField.getHeight() / 2;
 
-    public void setBall(){
+    public void setBall() {
         setRadius();
         GraphicsContext gc = playField.getGc();
         gc.setFill(Color.BLUE);
@@ -19,26 +19,27 @@ public class Ball {
     }
 
 
-
-
-    public void setRadius(){
+    public void setRadius() {
         this.radius = (playField.getWidth() + playField.getHeight()) / 50;
     }
 
-    public int getRadius(){
+    public int getRadius() {
         return this.radius;
     }
 
-    public void setxBallPosition(int position){
+    public void setxBallPosition(int position) {
         this.xBallPosition = position;
     }
+
     public int getxBallPostition() {
         return xBallPosition;
     }
-    public void setyBallPosition(int position){
+
+    public void setyBallPosition(int position) {
         this.yBallPosition = position;
     }
-    public int getyBallPosition(){
+
+    public int getyBallPosition() {
         return yBallPosition;
     }
 
