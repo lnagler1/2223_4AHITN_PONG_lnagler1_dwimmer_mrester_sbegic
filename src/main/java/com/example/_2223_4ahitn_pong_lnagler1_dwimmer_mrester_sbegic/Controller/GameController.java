@@ -1,6 +1,7 @@
 package com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.Controller;
 
 import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.Ball;
+import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.Bar;
 import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.PlayField;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -35,6 +36,8 @@ public class GameController {
     private int scoreP1;
     private GraphicsContext graphicsContext;
     Canvas canvas;
+    PlayField playField = PlayField.getInstance();
+    Ball ball = new Ball();
 
     private Bar bar = new Bar();
 
@@ -56,6 +59,7 @@ public class GameController {
 
 
     public void startGame() {
+
         PlayField playField = PlayField.getInstance();
         playField.setGc(graphicsContext);
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), e -> run(graphicsContext)));
@@ -66,8 +70,6 @@ public class GameController {
     }
 
     private void run(GraphicsContext gc) {
-        PlayField playField = PlayField.getInstance();
-        Ball ball = new Ball();
         playField.setBackground();
 
         int xBallPosition = ball.getxBallPostition();
@@ -76,6 +78,7 @@ public class GameController {
         int yBallSpeed = ball.getyBallSpeed();
         int width = playField.getWidth();
         int height = playField.getHeight();
+
         if (gameStarted) {
             xBallPosition += xBallSpeed;
             ball.setxBallPosition(xBallPosition);

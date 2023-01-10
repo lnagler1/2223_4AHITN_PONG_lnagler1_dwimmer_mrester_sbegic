@@ -69,7 +69,7 @@ public class Bar {
     }
 
     public void setLeftRectYCord() {
-        this.leftRectYCord = playField.height / 2 - this.length / 2;
+        this.leftRectYCord = playField.getHeight() / 2 - this.length / 2;
     }
 
     public double getRightRectXCord() {
@@ -86,6 +86,6 @@ public class Bar {
     }
 
     public void setRightRectYCord() {
-        this.rightRectYCord = playField.height / 2 - this.length / 2;
+        this.rightRectYCord = playField.getHeight() / 2 - this.length / 2;
     }
 }

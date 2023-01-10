@@ -25,7 +25,7 @@ public class MenueController {
     public Button btExit;
     Player player1;
     Player player2;
-    int count=0;
+    int count = 0;
     String temporaryName;
 
     public void initialize() throws IOException {
@@ -43,7 +43,7 @@ public class MenueController {
         Matcher matcher = pattern.matcher(name);
         boolean pat1 = matcher.find();
 
-        if ( name.equals("") ||  name.equals(temporaryName) ||  pat1) {
+        if (name.equals("") || name.equals(temporaryName) || pat1) {
             System.out.println("Error");
             //logs.InputError();
             Stage window = new Stage();
@@ -77,15 +77,17 @@ public class MenueController {
 
         } else {
             Stage stage = (Stage) btFinish.getScene().getWindow();
-            if (count == 0){
+            if (count == 0) {
                 player1 = new Player(name, color);
                 temporaryName = name;
                 count++;
                 stage.close();
-            }else if (count == 1){
+            } else if (count == 1) {
                 player2 = new Player(name, color);
                 stage.close();
             }
+            GameController g = new GameController();
+            g.loadPlayField();
 
 
         }
@@ -98,10 +100,6 @@ public class MenueController {
         Stage s = (Stage) btExit.getScene().getWindow();
         s.close();
     }
-
-
-
-
 
 
 }
