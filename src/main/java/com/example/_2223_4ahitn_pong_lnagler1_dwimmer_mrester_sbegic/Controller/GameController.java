@@ -1,6 +1,7 @@
 package com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.Controller;
 
 import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.Ball;
+import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.Bar;
 import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.PlayField;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
