@@ -5,10 +5,48 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class PlayField {
-    public void setBackground(GraphicsContext graphicsContext, int width, int height) {
-        graphicsContext.setFill(Color.BLACK);
-        graphicsContext.fillRect(0,0,width,height);
-        graphicsContext.setFill(Color.WHITE);
-        graphicsContext.setFont(Font.font(25));
+    private static PlayField instance = null;
+    public int height;
+    public int width;
+    public GraphicsContext gc;
+
+    public void setBackground() {
+        gc.setFill(Color.BLACK);
+        gc.fillRect(0, 0, width, height);
+        gc.setFill(Color.WHITE);
+        gc.setFont(Font.font(25));
     }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getWidth() {
+        return this.width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
+
+    public void setGc(GraphicsContext graphicsContext) {
+        this.gc = graphicsContext;
+    }
+
+    public GraphicsContext getGc() {
+        return this.gc;
+    }
+
+    public static PlayField getInstance() {
+        if (instance == null) {
+            instance = new PlayField();
+        }
+        return instance;
+    }
+
+
 }

@@ -6,7 +6,7 @@ public class HelloController {
     public Label moveToPlayField;
 
 
-    public void onClickedMove(){
+    public void onClickedMove() {
         GameController g = new GameController();
         g.loadPlayField();
     }
