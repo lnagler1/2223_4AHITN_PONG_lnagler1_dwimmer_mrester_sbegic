@@ -27,6 +27,7 @@ public class GameController {
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
 
+
         graphicsContext = canvas.getGraphicsContext2D();
         startGame();
     }
