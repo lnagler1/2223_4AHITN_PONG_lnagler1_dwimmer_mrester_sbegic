@@ -60,12 +60,11 @@ public class GameController {
 
     public void startGame() {
 
-        PlayField playField = PlayField.getInstance();
         playField.setGc(graphicsContext);
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), e -> run(graphicsContext)));
+        playField.setBackground();
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), e -> run(graphicsContext)));
         timeline.setCycleCount(Timeline.INDEFINITE);
         canvas.setOnMouseClicked(e -> gameStarted = true);
-        playField.setBackground();
         timeline.play();
     }
 
@@ -84,6 +83,7 @@ public class GameController {
             ball.setxBallPosition(xBallPosition);
             yBallPosition += yBallSpeed;
             ball.setyBallPosition(yBallPosition);
+            System.out.println(ball.getxBallPostition());
             ball.setBall();
             if (xBallPosition < width - (width / 4)) {
                 // set the bar on yBallPosition - height of bar / 2
