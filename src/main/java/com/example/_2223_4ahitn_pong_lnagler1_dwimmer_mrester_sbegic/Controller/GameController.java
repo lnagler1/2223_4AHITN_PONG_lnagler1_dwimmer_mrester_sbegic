@@ -36,6 +36,8 @@ public class GameController {
     private GraphicsContext graphicsContext;
     Canvas canvas;
 
+    private Bar bar = new Bar();
+
     public void loadPlayField() {
         setWidthAndHeight();
         PlayField playField = PlayField.getInstance();
@@ -121,6 +123,8 @@ public class GameController {
         }*/
         gc.fillText(scoreP1 + " " + scoreP2, width / 2, 100);
         ;
+        bar.setBar(graphicsContext);
+        ball.setBall();
     }
 
     public void setWidthAndHeight() {
@@ -128,14 +132,24 @@ public class GameController {
         if (screenWidth <= 800 && screenHeight <= 600) {
             playField.setWidth(600);
             playField.setHeight(400);
+            setBarMeassures(playField.height, playField.width);
         } else if (screenWidth <= 1280 && screenHeight <= 768) {
             playField.setWidth(800);
             playField.setHeight(600);
+            setBarMeassures(playField.height, playField.width);
         } else if (screenWidth <= 1920 && screenHeight <= 1080) {
             playField.setWidth(1000);
             playField.setHeight(700);
+            setBarMeassures(playField.height, playField.width);
         }
-        System.out.println(screenWidth);
     }
 
+    public void setBarMeassures(int length, int width){
+        bar.setLenght(length/4.5);
+        bar.setWidht(width/35);
+        bar.setLeftRectXCord();
+        bar.setLeftRectYCord();
+        bar.setRightRectXCord();
+        bar.setRightRectYCord();
+    }
 }
