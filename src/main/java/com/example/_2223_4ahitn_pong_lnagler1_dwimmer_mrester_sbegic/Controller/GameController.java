@@ -131,6 +131,7 @@ public class GameController {
         }*/
         gc.fillText(scoreP1 + " " + scoreP2, width / 2, 100);
         player1.setBar(graphicsContext);
+        player2.setBar(graphicsContext);
         ball.setBall(gc);
     }
 }
