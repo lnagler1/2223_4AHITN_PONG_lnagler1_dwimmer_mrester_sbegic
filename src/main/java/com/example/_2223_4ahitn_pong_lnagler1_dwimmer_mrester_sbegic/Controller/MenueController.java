@@ -92,10 +92,15 @@ public class MenueController {
                 stage.show();
             } else if (count == 1) {
                 player2 = new Player(name, my_dict.get(color));
+                count++;
                 stage.close();
             }
-            GameController g = new GameController(player1, player2);
-            g.loadPlayField();
+
+            if (count== 2){
+                GameController g = new GameController(player1, player2);
+                g.loadPlayField();
+            }
+
         }
     }
 
