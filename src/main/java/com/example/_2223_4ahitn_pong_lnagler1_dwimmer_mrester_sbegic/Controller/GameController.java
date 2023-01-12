@@ -1,9 +1,11 @@
 package com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.Controller;
 
 import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.Ball;
-import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.Bar;
 import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.PlayField;
 import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.Player;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
@@ -20,6 +22,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Screen;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.Glow;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -27,8 +34,8 @@ import javafx.util.Duration;
 import java.util.Random;
 
 public class GameController {
-    private final int screenWidth = (int) Screen.getPrimary().getBounds().getWidth();
-    private final int screenHeight = (int) Screen.getPrimary().getBounds().getHeight();
+    private Player player1;
+    private Player player2;
     private int width;
     private int height;
     private boolean gameStarted;
@@ -36,12 +43,18 @@ public class GameController {
     private int scoreP1;
     private GraphicsContext graphicsContext;
     Canvas canvas;
+    MenueController m = new MenueController();
     PlayField playField = PlayField.getInstance();
     Ball ball;
 
-    private Bar bar = new Bar();
+    public GameController(Player player1, Player player2) {
+        this.player1 = player1;
+        this.player2 = player2;
+    }
 
     public void loadPlayField() {
+
+        PlayField playField = PlayField.getInstance();
         setWidthAndHeight();
         ball = new Ball();
         Group root = new Group();
@@ -125,34 +138,7 @@ public class GameController {
             yBallSpeed *= -1;
         }*/
         gc.fillText(scoreP1 + " " + scoreP2, width / 2, 100);
-        ;
-        bar.setBar(graphicsContext);
+        player1.setBar(graphicsContext);
         ball.setBall(gc);
-    }
-
-    public void setWidthAndHeight() {
-        PlayField playField = PlayField.getInstance();
-        if (screenWidth <= 800 && screenHeight <= 600) {
-            playField.setWidth(600);
-            playField.setHeight(400);
-            setBarMeassures(playField.height, playField.width);
-        } else if (screenWidth <= 1280 && screenHeight <= 768) {
-            playField.setWidth(800);
-            playField.setHeight(600);
-            setBarMeassures(playField.height, playField.width);
-        } else if (screenWidth <= 1920 && screenHeight <= 1080) {
-            playField.setWidth(1000);
-            playField.setHeight(700);
-            setBarMeassures(playField.height, playField.width);
-        }
-    }
-
-    public void setBarMeassures(int length, int width){
-        bar.setLenght(length/4.5);
-        bar.setWidht(width/35);
-        bar.setLeftRectXCord();
-        bar.setLeftRectYCord();
-        bar.setRightRectXCord();
-        bar.setRightRectYCord();
     }
 }
