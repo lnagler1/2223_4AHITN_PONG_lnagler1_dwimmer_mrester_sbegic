@@ -55,7 +55,6 @@ public class GameController {
     public void loadPlayField() {
 
         PlayField playField = PlayField.getInstance();
-        setWidthAndHeight();
         ball = new Ball();
         Group root = new Group();
         canvas = new Canvas(playField.getWidth(), playField.getHeight());

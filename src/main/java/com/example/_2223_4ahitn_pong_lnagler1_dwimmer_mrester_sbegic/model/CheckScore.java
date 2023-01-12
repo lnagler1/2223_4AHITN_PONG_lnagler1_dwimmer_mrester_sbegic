@@ -1,7 +1,7 @@
 package com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model;
 
 public class CheckScore {
-
+/*
     Ball ballPos = new Ball();
     Bar barPos = new Bar();
     int scoreP2 = 0;
@@ -25,5 +25,5 @@ public class CheckScore {
 
     public Bar getBarPos() {
         return barPos;
-    }
+    }*/
 }

@@ -7,32 +7,33 @@ import javafx.stage.Screen;
 public class Player {
     private String name;
     private Bar bar;
+    private PlayField playField;
     private final int screenWidth = (int) Screen.getPrimary().getBounds().getWidth();
     private final int screenHeight = (int) Screen.getPrimary().getBounds().getHeight();
-    private int playfieldHeight;
-    private int playfieldWidth;
+
 
     public Player(CharSequence name, Color color) {
-        setWidthAndHeight();
         this.name = (String) name;
-        this.bar = new Bar(playfieldHeight, playfieldWidth, color);
+        this.playField = PlayField.getInstance();
+        setWidthAndHeight();
+        this.bar = new Bar(this.playField.getHeight(), this.playField.getWidth(), color);
     }
 
     public void setBar(GraphicsContext graphicsContext) {
         graphicsContext.setFill(this.bar.getColor());
-        graphicsContext.fillRect(this.bar.getxCord(), this.bar.getyCord(), this.bar.getWidht(), this.bar.getLenght());
+        graphicsContext.fillRect(this.bar.getXCord(), this.bar.getYCord(), this.bar.getWidht(), this.bar.getLenght());
     }
 
     public void setWidthAndHeight() {
         if (screenWidth <= 800 && screenHeight <= 600) {
-            this.playfieldWidth = 600;
-            playfieldHeight = 400;
+            this.playField.setWidth(600);
+            this.playField.setHeight(400);
         } else if (screenWidth <= 1280 && screenHeight <= 768) {
-            playfieldWidth = 800;
-            playfieldHeight = 600;
+            this.playField.setWidth(800);
+            this.playField.setHeight(600);
         } else if (screenWidth <= 1920 && screenHeight <= 1080) {
-            playfieldWidth = 1000;
-            playfieldHeight = 700;
+            this.playField.setWidth(1000);
+            this.playField.setHeight(700);
         }
     }
 

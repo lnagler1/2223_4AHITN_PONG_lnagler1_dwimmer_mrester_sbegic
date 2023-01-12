@@ -1,7 +1,5 @@
 package com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model;
 
-import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.Controller.GameController;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class Bar {
@@ -17,6 +15,8 @@ public class Bar {
         setLenght(playfieldHeight/4.5);
         setWidht(playfieldWidth/35);
         this.color = color;
+        setXCord();
+        setYCord();
     }
 
     public void checkContact2Ball() {
@@ -53,11 +53,11 @@ public class Bar {
         this.yCord = playField.height / 2 - this.length / 2;
     }
 
-    public double getxCord() {
+    public double getXCord() {
         return xCord;
     }
 
-    public double getyCord() {
+    public double getYCord() {
         return yCord;
     }
 
