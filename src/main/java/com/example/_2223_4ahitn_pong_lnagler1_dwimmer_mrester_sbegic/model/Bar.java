@@ -1,5 +1,6 @@
 package com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model;
 
+import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.Controller.GameController;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -7,26 +8,15 @@ public class Bar {
     private double length;
     private double width;
     private final Color color;
-    private double leftRectXCord;
-    private double leftRectYCord;
-    private double rightRectXCord;
-    private double rightRectYCord;
+    private double xCord;
+    private double yCord;
 
     private PlayField playField = PlayField.getInstance();
-    //private Ball ball = Ball.getInstace();
 
-    public Bar() {
-        this.length = 0;
-        this.width = 0;
-        this.color = Color.WHITE;
-    }
-
-    public void setBar(GraphicsContext graphicsContext) {
-        graphicsContext.setFill(this.color);
-        graphicsContext.fillRect(leftRectXCord, leftRectYCord, this.width, this.length);
-
-        graphicsContext.setFill(this.color);
-        graphicsContext.fillRect(rightRectXCord, rightRectYCord, this.width, this.length);
+    public Bar(int playfieldHeight, int playfieldWidth, Color color) {
+        setLenght(playfieldHeight/4.5);
+        setWidht(playfieldWidth/35);
+        this.color = color;
     }
 
     public void checkContact2Ball() {
@@ -55,37 +45,23 @@ public class Bar {
         this.width = widht;
     }
 
-
-    public double getLeftRectXCord() {
-        return leftRectXCord;
+    public void setXCord() {
+        this.xCord = playField.width - this.width * 2;
     }
 
-    public void setLeftRectXCord() {
-        this.leftRectXCord = this.width;
+    public void setYCord() {
+        this.yCord = playField.height / 2 - this.length / 2;
     }
 
-    public double getLeftRectYCord() {
-        return leftRectYCord;
+    public double getxCord() {
+        return xCord;
     }
 
-    public void setLeftRectYCord() {
-        this.leftRectYCord = playField.getHeight() / 2 - this.length / 2;
+    public double getyCord() {
+        return yCord;
     }
 
-    public double getRightRectXCord() {
-        return rightRectXCord;
-    }
-
-    public void setRightRectXCord() {
-        this.rightRectXCord = playField.width - this.width * 2;
-    }
-
-
-    public double getRightRectYCord() {
-        return rightRectYCord;
-    }
-
-    public void setRightRectYCord() {
-        this.rightRectYCord = playField.getHeight() / 2 - this.length / 2;
+    public Color getColor() {
+        return color;
     }
 }
