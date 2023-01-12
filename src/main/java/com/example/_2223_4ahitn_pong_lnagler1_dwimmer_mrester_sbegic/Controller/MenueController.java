@@ -15,6 +15,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Hashtable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,14 +26,19 @@ public class MenueController {
     public Button btExit;
     Player player1;
     Player player2;
-    int count=0;
+    int count = 0;
     String temporaryName;
+    Hashtable<String, Color> my_dict = new Hashtable<String, Color>();
 
-    public void initialize() throws IOException {
+    public void initialize() {
         cbBar.setItems(FXCollections.observableArrayList(
-                "Blau", "Rot", "Gelb", "Grün"));
-        cbBar.setValue("Blau");
+                "BLUE", "RED", "YELLOW", "GREEN"));
+        cbBar.setValue("BLUE");
 
+        my_dict.put("BLUE", Color.BLUE);
+        my_dict.put("RED", Color.RED);
+        my_dict.put("YELLOW", Color.YELLOW);
+        my_dict.put("GREEN", Color.GREEN);
     }
 
     public void onFinishButtonClicked(ActionEvent actionEvent) {
@@ -43,7 +49,7 @@ public class MenueController {
         Matcher matcher = pattern.matcher(name);
         boolean pat1 = matcher.find();
 
-        if ( name.equals("") ||  name.equals(temporaryName) ||  pat1) {
+        if (name.equals("") || name.equals(temporaryName) || pat1) {
             System.out.println("Error");
             //logs.InputError();
             Stage window = new Stage();
@@ -77,33 +83,26 @@ public class MenueController {
 
         } else {
             Stage stage = (Stage) btFinish.getScene().getWindow();
-            if (count == 0){
-                player1 = new Player(name, color);
+            if (count == 0) {
+                player1 = new Player(name, my_dict.get(color));
                 temporaryName = name;
                 count++;
                 tfPlayerName.clear();
                 stage.close();
                 stage.show();
-            }else if (count == 1){
-                player2 = new Player(name, color);
+            } else if (count == 1) {
+                player2 = new Player(name, my_dict.get(color));
                 stage.close();
             }
-
-
+            GameController g = new GameController(player1, player2);
+            g.loadPlayField();
         }
-
-
     }
 
     public void closeMenue() {
-
         Stage s = (Stage) btExit.getScene().getWindow();
         s.close();
     }
-
-
-
-
 
 
 }
