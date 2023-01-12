@@ -3,12 +3,12 @@ package com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model;
 import javafx.scene.paint.Color;
 
 public class Bar {
-    private double length;
-    private double width;
+    private double barLength;
+    private double barWidth;
     private final Color color;
     private double xCord;
     private double yCord;
-
+    private static int checkPlayer = 1;
     private PlayField playField = PlayField.getInstance();
 
     public Bar(int playfieldHeight, int playfieldWidth, Color color) {
@@ -30,27 +30,34 @@ public class Bar {
     }
 
     public double getLenght() {
-        return this.length;
+        return this.barLength;
     }
 
     public void setLenght(double lenght) {
-        this.length = lenght;
+        this.barLength = lenght;
     }
 
     public double getWidht() {
-        return width;
+        return barWidth;
     }
 
     public void setWidht(int widht) {
-        this.width = widht;
+        this.barWidth = widht;
     }
 
     public void setXCord() {
-        this.xCord = playField.width - this.width * 2;
+
+        if(checkPlayer == 1) {
+            this.xCord = this.barWidth;
+            checkPlayer++;
+        } else if(checkPlayer == 2){
+            this.xCord = playField.width - this.barWidth * 2;
+            checkPlayer++;
+        }
     }
 
     public void setYCord() {
-        this.yCord = playField.height / 2 - this.length / 2;
+        this.yCord = playField.height / 2 - this.barLength / 2;
     }
 
     public double getXCord() {

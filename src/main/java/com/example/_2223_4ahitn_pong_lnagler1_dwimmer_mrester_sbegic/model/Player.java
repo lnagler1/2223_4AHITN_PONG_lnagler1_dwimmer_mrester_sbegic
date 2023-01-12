@@ -8,13 +8,14 @@ public class Player {
     private String name;
     private Bar bar;
     private PlayField playField;
-    private final int screenWidth = (int) Screen.getPrimary().getBounds().getWidth();
-    private final int screenHeight = (int) Screen.getPrimary().getBounds().getHeight();
-
+    private final int screenWidth;
+    private final int screenHeight;
 
     public Player(CharSequence name, Color color) {
         this.name = (String) name;
         this.playField = PlayField.getInstance();
+        this.screenWidth = (int) Screen.getPrimary().getBounds().getWidth();
+        this.screenHeight = (int) Screen.getPrimary().getBounds().getHeight();
         setWidthAndHeight();
         this.bar = new Bar(this.playField.getHeight(), this.playField.getWidth(), color);
     }
