@@ -81,7 +81,9 @@ public class MenueController {
                 player1 = new Player(name, color);
                 temporaryName = name;
                 count++;
+                tfPlayerName.clear();
                 stage.close();
+                stage.show();
             }else if (count == 1){
                 player2 = new Player(name, color);
                 stage.close();
