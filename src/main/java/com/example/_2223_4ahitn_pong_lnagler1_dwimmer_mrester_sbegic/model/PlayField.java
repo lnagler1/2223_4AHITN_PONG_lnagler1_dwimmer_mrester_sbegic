@@ -10,7 +10,7 @@ public class PlayField {
     public int width;
     public GraphicsContext gc;
 
-    public void setBackground() {
+    public void paintBackground() {
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, width, height);
         gc.setFill(Color.WHITE);

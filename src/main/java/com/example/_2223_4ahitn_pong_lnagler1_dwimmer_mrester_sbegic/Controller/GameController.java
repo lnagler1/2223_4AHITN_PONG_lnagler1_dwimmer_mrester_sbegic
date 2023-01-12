@@ -3,7 +3,6 @@ package com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.Controller
 import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.Ball;
 import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.Bar;
 import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.PlayField;
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
@@ -12,13 +11,7 @@ import javafx.scene.Scene;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Effect;
-import javafx.scene.effect.Glow;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -29,8 +22,6 @@ import java.util.Random;
 public class GameController {
     private final int screenWidth = (int) Screen.getPrimary().getBounds().getWidth();
     private final int screenHeight = (int) Screen.getPrimary().getBounds().getHeight();
-    private int width;
-    private int height;
     private boolean gameStarted;
     private int scoreP2;
     private int scoreP1;
@@ -62,8 +53,8 @@ public class GameController {
         PlayField playField = PlayField.getInstance();
 
         playField.setGc(graphicsContext);
-        playField.setBackground();
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(10), e -> run(graphicsContext)));
+        playField.paintBackground();
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(5), e -> run(graphicsContext)));
         timeline.setCycleCount(Timeline.INDEFINITE);
         canvas.setOnMouseClicked(e -> gameStarted = true);
         timeline.play();
@@ -99,10 +90,10 @@ public class GameController {
             xBallSpeed = new Random().nextInt(2) == 0 ? 1 : -1;
             yBallSpeed = new Random().nextInt(2) == 0 ? 1 : -1;
         }
-        if ((yBallPosition + ball.getRadius()) > height || yBallPosition < 0) {
+        if (ball.yCollision(height)) {
             ball.setyBallSpeed(yBallSpeed * -1);
         }
-        if (xBallPosition > width || xBallPosition < 0) {
+        if (ball.xCollision(width)) {
             ball.setxBallSpeed(xBallSpeed * -1);
         }
         /*if (xBallPosition < 'xBarPositionPlayer1' - 'BarWidth'){
