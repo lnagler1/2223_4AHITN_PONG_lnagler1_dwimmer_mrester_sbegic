@@ -3,13 +3,11 @@ package com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-import java.awt.*;
-
 public class Ball {
     PlayField playField = PlayField.getInstance();
     private int radius;
-    private int xBallSpeed = 1;
-    private int yBallSpeed = 1;
+    private int xBallSpeed = 2;
+    private int yBallSpeed = 2;
     private int xBallPosition = playField.getWidth() / 2;
     private int yBallPosition = playField.getHeight() / 2;
 
@@ -17,6 +15,14 @@ public class Ball {
         setRadius();
         gc.setFill(Color.BLUE);
         gc.fillRoundRect(xBallPosition, yBallPosition, radius, radius, 90, 90);
+    }
+
+    public boolean yCollision(int height) {
+        return yBallPosition + radius > height || yBallPosition < 0;
+    }
+
+    public boolean xCollision(int width) {
+        return xBallPosition + radius > width || xBallPosition < 0;
     }
 
 

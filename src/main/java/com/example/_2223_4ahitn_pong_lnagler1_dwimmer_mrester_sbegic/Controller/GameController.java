@@ -22,11 +22,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Screen;
-import javafx.scene.effect.Effect;
-import javafx.scene.effect.Glow;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -36,8 +31,6 @@ import java.util.Random;
 public class GameController {
     private Player player1;
     private Player player2;
-    private int width;
-    private int height;
     private boolean gameStarted;
     private int scoreP2;
     private int scoreP1;
@@ -74,8 +67,8 @@ public class GameController {
         PlayField playField = PlayField.getInstance();
 
         playField.setGc(graphicsContext);
-        playField.setBackground();
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(10), e -> run(graphicsContext)));
+        playField.paintBackground();
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(5), e -> run(graphicsContext)));
         timeline.setCycleCount(Timeline.INDEFINITE);
         canvas.setOnMouseClicked(e -> gameStarted = true);
         timeline.play();
@@ -111,10 +104,10 @@ public class GameController {
             xBallSpeed = new Random().nextInt(2) == 0 ? 1 : -1;
             yBallSpeed = new Random().nextInt(2) == 0 ? 1 : -1;
         }
-        if ((yBallPosition + ball.getRadius()) > height || yBallPosition < 0) {
+        if (ball.yCollision(height)) {
             ball.setyBallSpeed(yBallSpeed * -1);
         }
-        if (xBallPosition > width || xBallPosition < 0) {
+        if (ball.xCollision(width)) {
             ball.setxBallSpeed(xBallSpeed * -1);
         }
         /*if (xBallPosition < 'xBarPositionPlayer1' - 'BarWidth'){
