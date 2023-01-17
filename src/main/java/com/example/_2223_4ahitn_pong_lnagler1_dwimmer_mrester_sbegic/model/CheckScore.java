@@ -9,15 +9,17 @@ public class CheckScore {
     int scoreP1 = 0;
     boolean gameStarted;
 
-    public void checkIfScored(int leftRectXCord, int rightRectXCord, int getWidht) {
-//        if (ballPos.getxBallPostition() < barPos.getLeftRectXCord() - barPos.getWidht()) {
+    public void checkIfScored(double leftRectXCord, double rightRectXCord, double getWidht) {
+        if (ballPos.getxBallPostition() < leftRectXCord - getWidht) {
             scoreP2++;
+            System.out.println("SCORE PLAYER 2");
             gameStarted = false;
-  //      }
-    //    if (ballPos.getxBallPostition() < barPos.getRightRectXCord() - barPos.getWidht()) {
+        }
+        if (ballPos.getxBallPostition() < rightRectXCord - getWidht) {
             scoreP1++;
+            System.out.println("SCORE PLAYER 1 MESSSII");
             gameStarted = false;
-      //  }
+        }
     }
 
     public Ball getBallPos() {

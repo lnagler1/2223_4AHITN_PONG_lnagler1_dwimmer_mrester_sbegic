@@ -1,6 +1,7 @@
 package com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.Controller;
 
 import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.Ball;
+import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.CheckScore;
 import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.PlayField;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -39,10 +40,12 @@ public class GameController {
     MenueController m = new MenueController();
     PlayField playField = PlayField.getInstance();
     Ball ball;
+    CheckScore checkScores = new CheckScore();
 
     public GameController(Player player1, Player player2) {
         this.player1 = player1;
         this.player2 = player2;
+
     }
 
     public void loadPlayField() {
@@ -86,6 +89,8 @@ public class GameController {
         int yBallSpeed = ball.getyBallSpeed();
         int width = playField.getWidth();
         int height = playField.getHeight();
+        checkScores.checkIfScored(this.player1.getBar().getXCord(),this.player2.getBar().getXCord(),this.player1.getBar().getWidht());
+
 
         if (gameStarted) {
             xBallPosition += xBallSpeed;
