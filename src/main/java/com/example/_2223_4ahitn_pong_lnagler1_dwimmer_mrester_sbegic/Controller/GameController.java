@@ -83,13 +83,12 @@ public class GameController {
 
 
         int xBallPosition = ball.getxBallPostition();
-        System.out.println(xBallPosition);
+       // System.out.println(xBallPosition);
         int yBallPosition = ball.getyBallPosition();
         int xBallSpeed = ball.getxBallSpeed();
         int yBallSpeed = ball.getyBallSpeed();
         int width = playField.getWidth();
         int height = playField.getHeight();
-        checkScores.checkIfScored(this.player1.getBar().getXCord(),this.player2.getBar().getXCord(),this.player1.getBar().getWidht());
 
 
         if (gameStarted) {
@@ -98,6 +97,7 @@ public class GameController {
             yBallPosition += yBallSpeed;
             ball.setyBallPosition(yBallPosition);
             ball.setBall(gc);
+
             if (xBallPosition < width - (width / 4)) {
                 // set the bar on yBallPosition - height of bar / 2
             } else {
@@ -110,12 +110,17 @@ public class GameController {
             yBallSpeed = new Random().nextInt(2) == 0 ? 1 : -1;
         }
         if (ball.yCollision(height)) {
+          //  System.out.println("Oben/unten abgebounced");
             ball.setyBallSpeed(yBallSpeed * -1);
         }
         if (ball.xCollision(width)) {
+            //System.out.println("Links/Rechts abgebounced");
+            checkScores.checkIfScored(ball.getxBallPostition() ,this.player1.getBar().getXCord(),this.player2.getBar().getXCord(),this.player2.getBar().getWidht());
             ball.setxBallSpeed(xBallSpeed * -1);
         }
-        /*if (xBallPosition < 'xBarPositionPlayer1' - 'BarWidth'){
+
+        /*
+        if (xBallPosition < 'xBarPositionPlayer1' - 'BarWidth'){
             scoreP2++;
             gameStarted = false;
         }
@@ -133,7 +138,8 @@ public class GameController {
             xBallSpeed += 1 * Math.signum(xBallSpeed);
             xBallSpeed *= -1;
             yBallSpeed *= -1;
-        }*/
+        }
+        */
         gc.fillText(scoreP1 + " " + scoreP2, width / 2, 100);
         player1.setBar(graphicsContext);
         player2.setBar(graphicsContext);
