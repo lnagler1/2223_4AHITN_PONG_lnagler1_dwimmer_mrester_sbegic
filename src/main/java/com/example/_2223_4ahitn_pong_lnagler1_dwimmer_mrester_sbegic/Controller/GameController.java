@@ -115,7 +115,13 @@ public class GameController {
         }
         if (ball.xCollision(width)) {
             //System.out.println("Links/Rechts abgebounced");
-            checkScores.checkIfScored(ball.getxBallPostition() ,this.player1.getBar().getXCord(),this.player2.getBar().getXCord(),this.player2.getBar().getWidht());
+           String WhoScored = checkScores.checkIfScored(ball.getxBallPostition() ,this.player1.getBar().getXCord(),this.player2.getBar().getXCord(),this.player2.getBar().getWidht());
+            if (WhoScored.equals("p1")){
+                this.scoreP1++;
+            }else {
+                this.scoreP2++;
+            }
+
             ball.setxBallSpeed(xBallSpeed * -1);
         }
 
