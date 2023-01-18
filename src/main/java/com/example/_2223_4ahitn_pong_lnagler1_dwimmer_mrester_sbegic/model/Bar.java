@@ -29,6 +29,14 @@ public class Bar {
         } */
     }
 
+    public boolean checkContact2UpperWall(){
+        return this.yCord > 0;
+    }
+
+    public boolean checkContact2LowerWall() {
+        return this.yCord < playField.getHeight() - this.barLength;
+    }
+
     public double getLenght() {
         return this.barLength;
     }
@@ -58,6 +66,10 @@ public class Bar {
 
     public void setYCord() {
         this.yCord = playField.height / 2 - this.barLength / 2;
+    }
+
+    public void setYCord(int yChange) {
+        this.yCord += yChange;
     }
 
     public double getXCord() {

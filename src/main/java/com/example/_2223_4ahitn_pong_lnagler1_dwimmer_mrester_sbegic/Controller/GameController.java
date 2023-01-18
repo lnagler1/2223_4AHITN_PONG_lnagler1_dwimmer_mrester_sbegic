@@ -3,31 +3,24 @@ package com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.Controller
 import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.Ball;
 import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.CheckScore;
 import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.PlayField;
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.Player;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Effect;
-import javafx.scene.effect.Glow;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class GameController {
     private Player player1;
@@ -35,6 +28,8 @@ public class GameController {
     private boolean gameStarted;
     private int scoreP2;
     private int scoreP1;
+    String currentKey = "justInitialized";
+    Thread t = new Thread();
     private GraphicsContext graphicsContext;
     Canvas canvas;
     MenueController m = new MenueController();
@@ -51,15 +46,76 @@ public class GameController {
     public void loadPlayField() {
 
         PlayField playField = PlayField.getInstance();
+
+        canvas = new Canvas(playField.getWidth(), playField.getHeight());
+
         ball = new Ball();
         Group root = new Group();
-        canvas = new Canvas(playField.getWidth(), playField.getHeight());
         root.getChildren().add(canvas);
         Stage stage = new Stage();
         stage.setTitle("Pong");
         stage.setScene(new Scene(root));
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
+
+        /**
+         * @author lnagler1
+         * If weither, W or S are pressed a new Thread is started, which changes the Y coordinate of the bar
+         * each 20 milliseconds.
+         */
+        stage.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
+
+            // if S is pressed
+            if (keyEvent.getCode() == KeyCode.S && player1.getBar().checkContact2LowerWall()) {
+
+                if (t == null || !t.isAlive()) {
+                    t = new Thread() {
+                        public void run() {
+                            currentKey = "S";
+                            try {
+                                while (true) {
+                                    player1.getBar().setYCord(10);
+                                    TimeUnit.MILLISECONDS.sleep(20);
+                                }
+                            } catch (Exception e) {
+                                e.getStackTrace();
+                            }
+                        }
+
+                    };
+                    t.start();
+                }
+            }
+
+            // if W is pressed
+            if (keyEvent.getCode() == KeyCode.W && player1.getBar().checkContact2UpperWall()) {
+
+                if (t == null || !t.isAlive()) {
+                    t = new Thread() {
+                        public void run() {
+                            currentKey = "W";
+                            try {
+                                while (true) {
+                                    player1.getBar().setYCord(-10);
+                                    TimeUnit.MILLISECONDS.sleep(20);
+                                }
+                            } catch (Exception e) {
+                                e.getStackTrace();
+                            }
+                        }
+
+                    };
+                    t.start();
+                }
+            }
+        });
+
+        stage.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> {
+            if (t.isAlive()){
+                t.interrupt();
+            }
+        });
+
 
         graphicsContext = canvas.getGraphicsContext2D();
         startGame();
@@ -77,13 +133,13 @@ public class GameController {
         timeline.play();
     }
 
+
     private void run(GraphicsContext gc) {
         gc.setFill(Color.BLACK);
-        gc.fillRoundRect(ball.getxBallPostition(), ball.getyBallPosition(), ball.getRadius(), ball.getRadius(), 0, 0);
-
+        gc.fillRect(0, 0, playField.width, playField.height);
 
         int xBallPosition = ball.getxBallPostition();
-       // System.out.println(xBallPosition);
+        // System.out.println(xBallPosition);
         int yBallPosition = ball.getyBallPosition();
         int xBallSpeed = ball.getxBallSpeed();
         int yBallSpeed = ball.getyBallSpeed();
@@ -110,12 +166,12 @@ public class GameController {
             yBallSpeed = new Random().nextInt(2) == 0 ? 1 : -1;
         }
         if (ball.yCollision(height)) {
-          //  System.out.println("Oben/unten abgebounced");
+            //  System.out.println("Oben/unten abgebounced");
             ball.setyBallSpeed(yBallSpeed * -1);
         }
         if (ball.xCollision(width)) {
             //System.out.println("Links/Rechts abgebounced");
-           String WhoScored = checkScores.checkIfScored(ball.getxBallPostition() ,this.player1.getBar().getXCord(),this.player2.getBar().getXCord(),this.player2.getBar().getWidht());
+            String WhoScored = checkScores.checkIfScored(ball.getxBallPostition() ,this.player1.getBar().getXCord(),this.player2.getBar().getXCord(),this.player2.getBar().getWidht());
             if (WhoScored.equals("p1")){
                 this.scoreP1++;
             }else {
@@ -151,4 +207,5 @@ public class GameController {
         player2.setBar(graphicsContext);
         ball.setBall(gc);
     }
+
 }
