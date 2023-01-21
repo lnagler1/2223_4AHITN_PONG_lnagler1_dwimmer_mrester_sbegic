@@ -73,7 +73,7 @@ public class GameController {
                         public void run() {
                             currentKey = "S";
                             try {
-                                while (true) {
+                                while (true && player1.getBar().checkContact2LowerWall()) {
                                     player1.getBar().setYCord(10);
                                     TimeUnit.MILLISECONDS.sleep(20);
                                 }
@@ -95,7 +95,7 @@ public class GameController {
                         public void run() {
                             currentKey = "W";
                             try {
-                                while (true) {
+                                while (true && player1.getBar().checkContact2UpperWall()) {
                                     player1.getBar().setYCord(-10);
                                     TimeUnit.MILLISECONDS.sleep(20);
                                 }
@@ -141,8 +141,8 @@ public class GameController {
         int xBallPosition = ball.getxBallPostition();
         // System.out.println(xBallPosition);
         int yBallPosition = ball.getyBallPosition();
-        int xBallSpeed = ball.getxBallSpeed();
-        int yBallSpeed = ball.getyBallSpeed();
+        float xBallSpeed = ball.getxBallSpeed();
+        float yBallSpeed = ball.getyBallSpeed();
         int width = playField.getWidth();
         int height = playField.getHeight();
 
@@ -159,12 +159,8 @@ public class GameController {
             } else {
                 // yBarPosition = yBallPosition > yBarPosition + barHeight / 2 ?yBarPosition +=1: yBarPosition - 1;
             }
-        } else {
-            xBallPosition = width / 2;
-            yBallPosition = height / 2;
-            xBallSpeed = new Random().nextInt(2) == 0 ? 1 : -1;
-            yBallSpeed = new Random().nextInt(2) == 0 ? 1 : -1;
         }
+
         if (ball.yCollision(height)) {
             //  System.out.println("Oben/unten abgebounced");
             ball.setyBallSpeed(yBallSpeed * -1);
@@ -178,9 +174,13 @@ public class GameController {
                 this.scoreP2++;
             }
 
+            gameStarted = false;
+            ball.resetBall();
+
             ball.setxBallSpeed(xBallSpeed * -1);
         }
-
+        ball.checkContact2Player1(player1);
+        ball.checkContact2Player2(player2);
         /*
         if (xBallPosition < 'xBarPositionPlayer1' - 'BarWidth'){
             scoreP2++;
@@ -202,7 +202,7 @@ public class GameController {
             yBallSpeed *= -1;
         }
         */
-        gc.fillText(scoreP1 + " " + scoreP2, width / 2, 100);
+        gc.fillText(scoreP1 + "      " + scoreP2, width / 2, 100);
         player1.setBar(graphicsContext);
         player2.setBar(graphicsContext);
         ball.setBall(gc);

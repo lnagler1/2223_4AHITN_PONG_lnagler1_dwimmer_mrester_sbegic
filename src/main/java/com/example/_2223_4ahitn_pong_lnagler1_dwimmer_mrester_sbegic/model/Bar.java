@@ -19,15 +19,6 @@ public class Bar {
         setYCord();
     }
 
-    public void checkContact2Ball() {
-       /* if (ball.getxCords() == this.leftRectXCord && ball.getYCords() == this.leftRectYCord){
-            // play Pong sound
-            // shoot ball in random opposite direction in a certain angle based on the point of impact on the bar
-        } else if (ball.getxCords() == this.rightRectXCord && ball.getYCords() == this.rightRectYCord){
-            // play Pong sound
-            // shoot ball in random opposite direction in a certain angle based on the point of impact on the bar
-        } */
-    }
 
     public boolean checkContact2UpperWall(){
         return this.yCord > 0;
