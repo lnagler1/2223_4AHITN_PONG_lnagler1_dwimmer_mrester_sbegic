@@ -1,11 +1,8 @@
 package com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.Controller;
 
-import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.Ball;
-import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.CheckScore;
-import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.PlayField;
+import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.Player;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 
@@ -36,10 +33,14 @@ public class GameController {
     PlayField playField = PlayField.getInstance();
     Ball ball;
     CheckScore checkScores = new CheckScore();
+    KI roboter;
+
+
 
     public GameController(Player player1, Player player2) {
         this.player1 = player1;
         this.player2 = player2;
+        roboter = new KI(this.player2);
 
     }
 
@@ -206,6 +207,7 @@ public class GameController {
         player1.setBar(graphicsContext);
         player2.setBar(graphicsContext);
         ball.setBall(gc);
+        roboter.chaseBall(ball.getyBallPosition());
     }
 
 }

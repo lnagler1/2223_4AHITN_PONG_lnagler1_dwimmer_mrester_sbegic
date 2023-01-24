@@ -12,7 +12,7 @@ public class PlayField {
 
     public void paintBackground() {
         gc.setFill(Color.BLACK);
-        gc.fillRect(0, 0, width, height); //dslkffkljsjfd
+        gc.fillRect(0, 0, width, height);
         gc.setFill(Color.WHITE);
         gc.setFont(Font.font(25));
     }

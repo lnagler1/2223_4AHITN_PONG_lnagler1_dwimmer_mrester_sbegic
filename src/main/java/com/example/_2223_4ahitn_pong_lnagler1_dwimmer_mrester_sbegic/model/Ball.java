@@ -61,7 +61,7 @@ public class Ball {
                 && (yBallPosition >= yCord && yBallPosition <= yCord + barLength)) {
             xBallSpeed *= -1;
             System.out.println(xBallPosition + " " + xCord);
-            System.out.println("Vallah");
+
         }
 
     }
