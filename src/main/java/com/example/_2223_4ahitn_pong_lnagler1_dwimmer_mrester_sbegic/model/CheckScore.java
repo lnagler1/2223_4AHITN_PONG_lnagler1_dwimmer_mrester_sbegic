@@ -13,7 +13,7 @@ public class CheckScore {
             gameStarted = false;
         } else if (getXballPos < (rightRectXCord + getWidht)) {
             score = "p1";
-            System.out.println("SCORE PLAYER 1 MESSSII");
+            System.out.println("SCORE PLAYER 1");
             gameStarted = false;
         }
         return score;
