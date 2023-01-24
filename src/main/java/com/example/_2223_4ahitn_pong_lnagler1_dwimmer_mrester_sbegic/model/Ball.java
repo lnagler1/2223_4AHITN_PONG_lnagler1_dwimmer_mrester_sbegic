@@ -62,7 +62,7 @@ public class Ball {
             xBallSpeed *= -1;
             rebound(player);
             System.out.println(xBallPosition + " " + xCord);
-            System.out.println("Vallah");
+
         }
 
     }
