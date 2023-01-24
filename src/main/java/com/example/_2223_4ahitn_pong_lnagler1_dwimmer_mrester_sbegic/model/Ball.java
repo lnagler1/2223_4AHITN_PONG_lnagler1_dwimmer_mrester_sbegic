@@ -3,8 +3,6 @@ package com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-import java.util.Random;
-
 public class Ball {
     PlayField playField = PlayField.getInstance();
     private int radius;
@@ -15,15 +13,15 @@ public class Ball {
 
     public Ball() {
         setRadius();
-        xBallSpeed = 2;
-        yBallSpeed = 2;
+        xBallSpeed = 3;
+        yBallSpeed = 0;
         xBallPosition = playField.getWidth() / 2;
         yBallPosition = playField.getHeight() / 2;
     }
 
     public void resetBall() {
-        xBallSpeed = 2;
-        yBallSpeed = 2;
+        xBallSpeed = 3;
+        yBallSpeed = 0;
         xBallPosition = playField.getWidth() / 2;
         yBallPosition = playField.getHeight() / 2;
         setBall(playField.getGc());
@@ -42,7 +40,8 @@ public class Ball {
 
 
         if ((xBallPosition + 2 < xCord + barWidth)
-                && (yBallPosition >= yCord && yBallPosition <= yCord + barLength)) {
+                && (yBallPosition + radius >= yCord && yBallPosition <= yCord + barLength)) {
+            rebound(player);
             xBallSpeed *= -1;
             System.out.println(xBallPosition + " " + xCord);
             System.out.println("Vallah");
@@ -50,6 +49,7 @@ public class Ball {
 
     }
 
+    //maybe reflexionsgesetz für bewegtes Abprallen https://de.wikipedia.org/wiki/Reflexion_%28Physik%29#Reflexionsgesetz (Unter Bewegte Spiegelfläche)
     public void checkContact2Player2(Player player) {
         double yCord = player.getBar().getYCord();
         double xCord = player.getBar().getXCord();
@@ -60,10 +60,21 @@ public class Ball {
         if ((xBallPosition + 2 > xCord - barWidth)
                 && (yBallPosition >= yCord && yBallPosition <= yCord + barLength)) {
             xBallSpeed *= -1;
+            rebound(player);
             System.out.println(xBallPosition + " " + xCord);
             System.out.println("Vallah");
         }
 
+    }
+
+    public void rebound(Player player) {
+        int max = 5;
+        double mid = player.getBar().getYCord() + (player.getBar().getLenght() / 2);
+        float reboundChances = (float) (max / (player.getBar().getLenght() / 2));
+        int reboundPoint = (int) (this.yBallPosition - mid);
+        System.out.println(reboundPoint     +     "        "      +    mid);
+        System.out.println(reboundPoint * reboundChances);
+        yBallSpeed = reboundPoint * reboundChances;
     }
 
     public boolean yCollision(int height) {
