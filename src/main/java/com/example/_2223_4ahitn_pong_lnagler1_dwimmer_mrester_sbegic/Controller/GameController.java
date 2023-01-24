@@ -34,13 +34,18 @@ public class GameController {
     Ball ball;
     CheckScore checkScores = new CheckScore();
     KI roboter;
+    boolean vsKiIsOn = false;
 
 
 
-    public GameController(Player player1, Player player2) {
+    public GameController(Player player1, Player player2, boolean vsKI) {
         this.player1 = player1;
         this.player2 = player2;
-        roboter = new KI(this.player2);
+        if (vsKI){
+            roboter = new KI(this.player2);
+            vsKiIsOn = vsKI;
+        }
+
 
     }
 
@@ -207,7 +212,10 @@ public class GameController {
         player1.setBar(graphicsContext);
         player2.setBar(graphicsContext);
         ball.setBall(gc);
-        roboter.chaseBall(ball.getyBallPosition());
+        if (vsKiIsOn){
+            roboter.chaseBall(ball.getyBallPosition());
+        }
+
     }
 
 }

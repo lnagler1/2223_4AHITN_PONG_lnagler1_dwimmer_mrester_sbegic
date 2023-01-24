@@ -86,8 +86,17 @@ public class MenueController {
                 temporaryName = name;
                 count++;
                 tfPlayerName.clear();
-                stage.close();
-                stage.show();
+                if (checkBoxVersusKi.isSelected()){
+
+                    player2 = new Player("NPC", my_dict.get("BLUE"));
+                    count = 2;
+                    stage.close();
+                }else{
+                    stage.close();
+                    stage.show();
+                }
+
+
             } else if (count == 1) {
                 player2 = new Player(name, my_dict.get(color));
                 count++;
@@ -95,7 +104,7 @@ public class MenueController {
             }
 
             if (count== 2){
-                GameController g = new GameController(player1, player2);
+                GameController g = new GameController(player1, player2, checkBoxVersusKi.isSelected());
                 g.loadPlayField();
             }
 
