@@ -1,6 +1,9 @@
 package com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model;
 
+import javafx.scene.media.Media;
 import javafx.scene.paint.Color;
+
+import java.io.File;
 
 public class Bar {
     private double barLength;
