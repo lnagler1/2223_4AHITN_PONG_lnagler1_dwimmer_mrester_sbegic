@@ -34,6 +34,7 @@ public class GameController {
     Ball ball;
     CheckScore checkScores = new CheckScore();
     KI roboter;
+    KI roboter2;
 
 
 
@@ -41,6 +42,7 @@ public class GameController {
         this.player1 = player1;
         this.player2 = player2;
         roboter = new KI(this.player2);
+        roboter2 = new KI(this.player1);
 
     }
 
@@ -128,7 +130,7 @@ public class GameController {
 
         playField.setGc(graphicsContext);
         playField.paintBackground();
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(5), e -> run(graphicsContext)));
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(0.1), e -> run(graphicsContext)));
         timeline.setCycleCount(Timeline.INDEFINITE);
         canvas.setOnMouseClicked(e -> gameStarted = true);
         timeline.play();
@@ -146,6 +148,8 @@ public class GameController {
         float yBallSpeed = ball.getyBallSpeed();
         int width = playField.getWidth();
         int height = playField.getHeight();
+        gc.setFill(Color.BLUE);
+        gc.fillText(scoreP1 + "      " + scoreP2, width / 2, 100);
 
 
         if (gameStarted) {
@@ -203,11 +207,11 @@ public class GameController {
             yBallSpeed *= -1;
         }
         */
-        gc.fillText(scoreP1 + "      " + scoreP2, width / 2, 100);
         player1.setBar(graphicsContext);
         player2.setBar(graphicsContext);
         ball.setBall(gc);
         roboter.chaseBall(ball.getyBallPosition());
+        roboter2.chaseBall(ball.getyBallPosition());
     }
 
 }

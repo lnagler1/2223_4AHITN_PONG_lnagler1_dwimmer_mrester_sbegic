@@ -75,6 +75,14 @@ public class Ball {
         System.out.println(reboundPoint     +     "        "      +    mid);
         System.out.println(reboundPoint * reboundChances);
         yBallSpeed = reboundPoint * reboundChances;
+
+        if (yBallSpeed < 1) {
+            if (yBallSpeed < 0) {
+                yBallSpeed -= 1;
+                return;
+            }
+            yBallSpeed += 1;
+        }
     }
 
     public boolean yCollision(int height) {
