@@ -1,0 +1,6 @@
+
+In CMD:
+docker run -d --name pong -e MYSQL_ROOT_PASSWORD=0000 mysql:latest
+
+
+docker run --name myadmin -d --link pong:db -p 8080:80 phpmyadmin

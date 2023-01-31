@@ -7,11 +7,13 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.File;
 import java.util.Hashtable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,17 +28,24 @@ public class MenueController {
     Player player2;
     int count = 0;
     String temporaryName;
-    Hashtable<String, Color> my_dict = new Hashtable<String, Color>();
+    Hashtable<String, Color> color_dict = new Hashtable<String, Color>();
+
+    public MediaPlayer mediaPlayer;
+    public Media media;
 
     public void initialize() {
         cbBar.setItems(FXCollections.observableArrayList(
                 "BLUE", "RED", "YELLOW", "GREEN"));
         cbBar.setValue("BLUE");
 
-        my_dict.put("BLUE", Color.BLUE);
-        my_dict.put("RED", Color.RED);
-        my_dict.put("YELLOW", Color.YELLOW);
-        my_dict.put("GREEN", Color.GREEN);
+        color_dict.put("BLUE", Color.BLUE);
+        color_dict.put("RED", Color.RED);
+        color_dict.put("YELLOW", Color.YELLOW);
+        color_dict.put("GREEN", Color.GREEN);
+        media = new Media(new File("src/main/resources/com/example/_2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic/sounds/backgroundMusic.mp3").toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setVolume(0.05);
+        mediaPlayer.setAutoPlay(true);
     }
 
     public void onFinishButtonClicked(ActionEvent actionEvent) {
@@ -82,7 +91,7 @@ public class MenueController {
         } else {
             Stage stage = (Stage) btFinish.getScene().getWindow();
             if (count == 0) {
-                player1 = new Player(name, my_dict.get(color));
+                player1 = new Player(name, color_dict.get(color));
                 temporaryName = name;
                 count++;
                 tfPlayerName.clear();
@@ -98,7 +107,7 @@ public class MenueController {
 
 
             } else if (count == 1) {
-                player2 = new Player(name, my_dict.get(color));
+                player2 = new Player(name, color_dict.get(color));
                 count++;
                 stage.close();
             }

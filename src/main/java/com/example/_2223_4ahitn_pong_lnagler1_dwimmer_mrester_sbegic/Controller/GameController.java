@@ -11,11 +11,14 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -34,9 +37,10 @@ public class GameController {
     Ball ball;
     CheckScore checkScores = new CheckScore();
     KI roboter;
+    private Media media;
     boolean vsKiIsOn = false;
 
-
+    private MediaPlayer mediaPlayer;
 
     public GameController(Player player1, Player player2, boolean vsKI) {
         this.player1 = player1;
@@ -117,7 +121,7 @@ public class GameController {
         });
 
         stage.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> {
-            if (t.isAlive()){
+            if (t.isAlive()) {
                 t.interrupt();
             }
         });
@@ -151,6 +155,8 @@ public class GameController {
         float yBallSpeed = ball.getyBallSpeed();
         int width = playField.getWidth();
         int height = playField.getHeight();
+        gc.setFill(Color.BLUE);
+        gc.fillText(scoreP1 + "      " + scoreP2, width / 2, 100);
 
 
         if (gameStarted) {
@@ -168,15 +174,16 @@ public class GameController {
         }
 
         if (ball.yCollision(height)) {
-            //  System.out.println("Oben/unten abgebounced");
+            System.out.println("Oben/unten abgebounced");
             ball.setyBallSpeed(yBallSpeed * -1);
+            playWallHitSound();
         }
         if (ball.xCollision(width)) {
             //System.out.println("Links/Rechts abgebounced");
-            String WhoScored = checkScores.checkIfScored(ball.getxBallPostition() ,this.player1.getBar().getXCord(),this.player2.getBar().getXCord(),this.player2.getBar().getWidht());
-            if (WhoScored.equals("p1")){
+            String WhoScored = checkScores.checkIfScored(ball.getxBallPostition(), this.player1.getBar().getXCord(), this.player2.getBar().getXCord(), this.player2.getBar().getWidht());
+            if (WhoScored.equals("p1")) {
                 this.scoreP1++;
-            }else {
+            } else {
                 this.scoreP2++;
             }
 
@@ -208,13 +215,20 @@ public class GameController {
             yBallSpeed *= -1;
         }
         */
-        gc.fillText(scoreP1 + "      " + scoreP2, width / 2, 100);
         player1.setBar(graphicsContext);
         player2.setBar(graphicsContext);
         ball.setBall(gc);
         if (vsKiIsOn){
             roboter.chaseBall(ball.getyBallPosition());
         }
+
+    private void playWallHitSound() {
+        this.media = new Media(
+                new File(
+                        "src/main/resources/com/example/_2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic/sounds/wallHitSound.mp3").toURI().toString());
+        this.mediaPlayer = new MediaPlayer(media);
+        this.mediaPlayer.play();
+    }
 
     }
 
