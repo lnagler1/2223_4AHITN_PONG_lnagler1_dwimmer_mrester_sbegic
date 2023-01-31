@@ -91,6 +91,7 @@ public class GameController {
                     };
                     t.start();
                 }
+
             }
 
             // if W is pressed
@@ -113,6 +114,10 @@ public class GameController {
                     };
                     t.start();
                 }
+            }
+            if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                //closes the game
+                stage.close();
             }
         });
 

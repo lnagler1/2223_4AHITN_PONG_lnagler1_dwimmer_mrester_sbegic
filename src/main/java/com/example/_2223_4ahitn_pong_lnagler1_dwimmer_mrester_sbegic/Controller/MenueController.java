@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -34,8 +35,7 @@ public class MenueController {
     public Media media;
 
     public void initialize() {
-        cbBar.setItems(FXCollections.observableArrayList(
-                "BLUE", "RED", "YELLOW", "GREEN"));
+        cbBar.setItems(FXCollections.observableArrayList("BLUE", "RED", "YELLOW", "GREEN"));
         cbBar.setValue("BLUE");
 
         color_dict.put("BLUE", Color.BLUE);
@@ -44,7 +44,7 @@ public class MenueController {
         color_dict.put("GREEN", Color.GREEN);
         media = new Media(new File("src/main/resources/com/example/_2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic/sounds/backgroundMusic.mp3").toURI().toString());
         mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setVolume(0.05);
+        mediaPlayer.setVolume(0.025);
         mediaPlayer.setAutoPlay(true);
     }
 
@@ -97,17 +97,17 @@ public class MenueController {
                 tfPlayerName.clear();
                 stage.close();
                 stage.show();
+                cbBar.setValue("BLUE");
             } else if (count == 1) {
                 player2 = new Player(name, color_dict.get(color));
                 count++;
                 stage.close();
             }
 
-            if (count== 2){
+            if (count == 2) {
                 GameController g = new GameController(player1, player2);
                 g.loadPlayField();
             }
-
         }
     }
 
