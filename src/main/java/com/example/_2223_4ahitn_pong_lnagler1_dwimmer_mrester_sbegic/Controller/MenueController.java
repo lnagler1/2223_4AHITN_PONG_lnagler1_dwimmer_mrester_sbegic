@@ -97,7 +97,7 @@ public class MenueController {
                 tfPlayerName.clear();
                 if (checkBoxVersusKi.isSelected()){
 
-                    player2 = new Player("NPC", my_dict.get("BLUE"));
+                    player2 = new Player("NPC", color_dict.get("BLUE"));
                     count = 2;
                     stage.close();
                 }else{

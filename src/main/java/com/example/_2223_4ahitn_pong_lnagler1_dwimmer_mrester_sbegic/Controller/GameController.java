@@ -30,6 +30,7 @@ public class GameController {
     private int scoreP1;
     String currentKey = "justInitialized";
     Thread t = new Thread();
+    Thread t2 = new Thread();
     private GraphicsContext graphicsContext;
     Canvas canvas;
     MenueController m = new MenueController();
@@ -45,7 +46,7 @@ public class GameController {
     public GameController(Player player1, Player player2, boolean vsKI) {
         this.player1 = player1;
         this.player2 = player2;
-        if (vsKI){
+        if (vsKI) {
             roboter = new KI(this.player2);
             vsKiIsOn = vsKI;
         }
@@ -70,7 +71,7 @@ public class GameController {
 
         /**
          * @author lnagler1
-         * If weither, W or S are pressed a new Thread is started, which changes the Y coordinate of the bar
+         * If either, W or S are pressed a new Thread is started, which changes the Y coordinate of the bar
          * each 20 milliseconds.
          */
         stage.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
@@ -118,11 +119,59 @@ public class GameController {
                     t.start();
                 }
             }
+
+            // if K is pressed
+            if (keyEvent.getCode() == KeyCode.K && player2.getBar().checkContact2LowerWall()) {
+
+                if (t2 == null || !t2.isAlive()) {
+                    t2 = new Thread() {
+                        public void run() {
+                            currentKey = "S";
+                            try {
+                                while (true && player2.getBar().checkContact2LowerWall()) {
+                                    player2.getBar().setYCord(10);
+                                    TimeUnit.MILLISECONDS.sleep(20);
+                                }
+                            } catch (Exception e) {
+                                e.getStackTrace();
+                            }
+                        }
+
+                    };
+                    t2.start();
+                }
+            }
+
+            // if I is pressed
+            if (keyEvent.getCode() == KeyCode.I && player2.getBar().checkContact2UpperWall()) {
+
+                if (t2 == null || !t2.isAlive()) {
+                    t2 = new Thread() {
+                        public void run() {
+                            currentKey = "W";
+                            try {
+                                while (true && player2.getBar().checkContact2UpperWall()) {
+                                    player2.getBar().setYCord(-10);
+                                    TimeUnit.MILLISECONDS.sleep(20);
+                                }
+                            } catch (Exception e) {
+                                e.getStackTrace();
+                            }
+                        }
+
+                    };
+                    t2.start();
+                }
+            }
+
         });
 
         stage.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> {
             if (t.isAlive()) {
                 t.interrupt();
+            }
+            if (t2.isAlive()) {
+                t2.interrupt();
             }
         });
 
@@ -218,9 +267,10 @@ public class GameController {
         player1.setBar(graphicsContext);
         player2.setBar(graphicsContext);
         ball.setBall(gc);
-        if (vsKiIsOn){
+        if (vsKiIsOn) {
             roboter.chaseBall(ball.getyBallPosition());
         }
+    }
 
     private void playWallHitSound() {
         this.media = new Media(
@@ -228,8 +278,6 @@ public class GameController {
                         "src/main/resources/com/example/_2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic/sounds/wallHitSound.mp3").toURI().toString());
         this.mediaPlayer = new MediaPlayer(media);
         this.mediaPlayer.play();
-    }
-
     }
 
 }
