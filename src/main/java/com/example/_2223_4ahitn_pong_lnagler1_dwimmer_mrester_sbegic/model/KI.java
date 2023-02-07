@@ -14,9 +14,9 @@ public class KI {
 
         diff = (int) ((player.getBar().getYCord() + length/2) - yBallPosition);
         if (diff > 0 && player.getBar().checkContact2UpperWall()){
-            player.getBar().setYCord(-3); //original 4
+            player.getBar().setYCord(-3); //original 3
         }else if (diff < 0 && player.getBar().checkContact2LowerWall()){
-            player.getBar().setYCord(+3); //original 4
+            player.getBar().setYCord(+3); //original 3
         }
 
     }
