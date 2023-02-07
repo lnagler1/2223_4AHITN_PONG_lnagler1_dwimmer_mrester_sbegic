@@ -1,11 +1,8 @@
 package com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.Controller;
 
-import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.Ball;
-import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.CheckScore;
-import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.PlayField;
+import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.Player;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 
@@ -14,11 +11,14 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -36,11 +36,17 @@ public class GameController {
     PlayField playField = PlayField.getInstance();
     Ball ball;
     CheckScore checkScores = new CheckScore();
+    KI roboter;
+    KI roboter2;
+    private Media media;
+
+    private MediaPlayer mediaPlayer;
 
     public GameController(Player player1, Player player2) {
         this.player1 = player1;
         this.player2 = player2;
-
+        roboter = new KI(this.player2);
+        roboter2 = new KI(this.player1);
     }
 
     public void loadPlayField() {
@@ -85,6 +91,7 @@ public class GameController {
                     };
                     t.start();
                 }
+
             }
 
             // if W is pressed
@@ -108,10 +115,14 @@ public class GameController {
                     t.start();
                 }
             }
+            if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                //closes the game
+                stage.close();
+            }
         });
 
         stage.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> {
-            if (t.isAlive()){
+            if (t.isAlive()) {
                 t.interrupt();
             }
         });
@@ -145,6 +156,8 @@ public class GameController {
         float yBallSpeed = ball.getyBallSpeed();
         int width = playField.getWidth();
         int height = playField.getHeight();
+        gc.setFill(Color.BLUE);
+        gc.fillText(scoreP1 + "      " + scoreP2, width / 2, 100);
 
 
         if (gameStarted) {
@@ -162,15 +175,16 @@ public class GameController {
         }
 
         if (ball.yCollision(height)) {
-            //  System.out.println("Oben/unten abgebounced");
+            System.out.println("Oben/unten abgebounced");
             ball.setyBallSpeed(yBallSpeed * -1);
+            playWallHitSound();
         }
         if (ball.xCollision(width)) {
             //System.out.println("Links/Rechts abgebounced");
-            String WhoScored = checkScores.checkIfScored(ball.getxBallPostition() ,this.player1.getBar().getXCord(),this.player2.getBar().getXCord(),this.player2.getBar().getWidht());
-            if (WhoScored.equals("p1")){
+            String WhoScored = checkScores.checkIfScored(ball.getxBallPostition(), this.player1.getBar().getXCord(), this.player2.getBar().getXCord(), this.player2.getBar().getWidht());
+            if (WhoScored.equals("p1")) {
                 this.scoreP1++;
-            }else {
+            } else {
                 this.scoreP2++;
             }
 
@@ -202,10 +216,19 @@ public class GameController {
             yBallSpeed *= -1;
         }
         */
-        gc.fillText(scoreP1 + "      " + scoreP2, width / 2, 100);
         player1.setBar(graphicsContext);
         player2.setBar(graphicsContext);
         ball.setBall(gc);
+        roboter.chaseBall(ball.getyBallPosition());
+        //roboter2.chaseBall(ball.getyBallPosition());
+    }
+
+    private void playWallHitSound() {
+        this.media = new Media(
+                new File(
+                        "src/main/resources/com/example/_2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic/sounds/wallHitSound.mp3").toURI().toString());
+        this.mediaPlayer = new MediaPlayer(media);
+        this.mediaPlayer.play();
     }
 
 }

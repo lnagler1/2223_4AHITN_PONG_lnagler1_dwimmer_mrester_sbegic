@@ -1,7 +1,11 @@
 package com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+
+import java.io.File;
 
 public class Ball {
     PlayField playField = PlayField.getInstance();
@@ -11,16 +15,19 @@ public class Ball {
     private int xBallPosition;
     private int yBallPosition;
 
+    private Media media;
+    private MediaPlayer mediaPlayer;
+
     public Ball() {
         setRadius();
-        xBallSpeed = 3;
+        xBallSpeed = 2; //original 3
         yBallSpeed = 0;
         xBallPosition = playField.getWidth() / 2;
         yBallPosition = playField.getHeight() / 2;
     }
 
     public void resetBall() {
-        xBallSpeed = 3;
+        xBallSpeed = 2; //original 3
         yBallSpeed = 0;
         xBallPosition = playField.getWidth() / 2;
         yBallPosition = playField.getHeight() / 2;
@@ -41,6 +48,7 @@ public class Ball {
 
         if ((xBallPosition + 2 < xCord + barWidth)
                 && (yBallPosition + radius >= yCord && yBallPosition <= yCord + barLength)) {
+            playBarHitSound();
             rebound(player);
             xBallSpeed *= -1;
             System.out.println(xBallPosition + " " + xCord);
@@ -59,10 +67,11 @@ public class Ball {
 
         if ((xBallPosition + 2 > xCord - barWidth)
                 && (yBallPosition >= yCord && yBallPosition <= yCord + barLength)) {
+            playBarHitSound();
             xBallSpeed *= -1;
             rebound(player);
             System.out.println(xBallPosition + " " + xCord);
-            System.out.println("Vallah");
+
         }
 
     }
@@ -72,9 +81,17 @@ public class Ball {
         double mid = player.getBar().getYCord() + (player.getBar().getLenght() / 2);
         float reboundChances = (float) (max / (player.getBar().getLenght() / 2));
         int reboundPoint = (int) (this.yBallPosition - mid);
-        System.out.println(reboundPoint     +     "        "      +    mid);
+        System.out.println(reboundPoint + "        " + mid);
         System.out.println(reboundPoint * reboundChances);
         yBallSpeed = reboundPoint * reboundChances;
+
+        if (yBallSpeed < 1) {
+            if (yBallSpeed < 0) {
+                yBallSpeed -= 1;
+                return;
+            }
+            yBallSpeed += 1;
+        }
     }
 
     public boolean yCollision(int height) {
@@ -124,5 +141,13 @@ public class Ball {
 
     public void setyBallSpeed(float yBallSpeed) {
         this.yBallSpeed = yBallSpeed;
+    }
+
+    private void playBarHitSound() {
+        this.media = new Media(
+                new File(
+                        "src/main/resources/com/example/_2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic/sounds/barHitSound.mp3").toURI().toString());
+        this.mediaPlayer = new MediaPlayer(this.media);
+        this.mediaPlayer.play();
     }
 }
