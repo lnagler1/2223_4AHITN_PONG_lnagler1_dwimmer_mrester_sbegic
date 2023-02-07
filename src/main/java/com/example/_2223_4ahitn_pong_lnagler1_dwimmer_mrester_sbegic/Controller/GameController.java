@@ -1,9 +1,6 @@
 package com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.Controller;
 
-import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.Ball;
-import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.Bar;
-import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.PlayField;
-import javafx.animation.Animation;
+import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
@@ -12,44 +9,124 @@ import javafx.scene.Scene;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Effect;
-import javafx.scene.effect.Glow;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class GameController {
-    private final int screenWidth = (int) Screen.getPrimary().getBounds().getWidth();
-    private final int screenHeight = (int) Screen.getPrimary().getBounds().getHeight();
-    private int width;
-    private int height;
+    private Player player1;
+    private Player player2;
     private boolean gameStarted;
     private int scoreP2;
     private int scoreP1;
+    String currentKey = "justInitialized";
+    Thread t = new Thread();
     private GraphicsContext graphicsContext;
     Canvas canvas;
+    MenueController m = new MenueController();
+    PlayField playField = PlayField.getInstance();
+    Ball ball;
+    CheckScore checkScores = new CheckScore();
+    KI roboter;
+    KI roboter2;
+    private Media media;
 
-    private Bar bar = new Bar();
+    private MediaPlayer mediaPlayer;
+
+    public GameController(Player player1, Player player2) {
+        this.player1 = player1;
+        this.player2 = player2;
+        roboter = new KI(this.player2);
+        roboter2 = new KI(this.player1);
+    }
 
     public void loadPlayField() {
-        setWidthAndHeight();
+
         PlayField playField = PlayField.getInstance();
-        Group root = new Group();
+
         canvas = new Canvas(playField.getWidth(), playField.getHeight());
+
+        ball = new Ball();
+        Group root = new Group();
         root.getChildren().add(canvas);
         Stage stage = new Stage();
         stage.setTitle("Pong");
         stage.setScene(new Scene(root));
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
+
+        /**
+         * @author lnagler1
+         * If weither, W or S are pressed a new Thread is started, which changes the Y coordinate of the bar
+         * each 20 milliseconds.
+         */
+        stage.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
+
+            // if S is pressed
+            if (keyEvent.getCode() == KeyCode.S && player1.getBar().checkContact2LowerWall()) {
+
+                if (t == null || !t.isAlive()) {
+                    t = new Thread() {
+                        public void run() {
+                            currentKey = "S";
+                            try {
+                                while (true && player1.getBar().checkContact2LowerWall()) {
+                                    player1.getBar().setYCord(10);
+                                    TimeUnit.MILLISECONDS.sleep(20);
+                                }
+                            } catch (Exception e) {
+                                e.getStackTrace();
+                            }
+                        }
+
+                    };
+                    t.start();
+                }
+
+            }
+
+            // if W is pressed
+            if (keyEvent.getCode() == KeyCode.W && player1.getBar().checkContact2UpperWall()) {
+
+                if (t == null || !t.isAlive()) {
+                    t = new Thread() {
+                        public void run() {
+                            currentKey = "W";
+                            try {
+                                while (true && player1.getBar().checkContact2UpperWall()) {
+                                    player1.getBar().setYCord(-10);
+                                    TimeUnit.MILLISECONDS.sleep(20);
+                                }
+                            } catch (Exception e) {
+                                e.getStackTrace();
+                            }
+                        }
+
+                    };
+                    t.start();
+                }
+            }
+            if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                //closes the game
+                stage.close();
+            }
+        });
+
+        stage.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> {
+            if (t.isAlive()) {
+                t.interrupt();
+            }
+        });
+
 
         graphicsContext = canvas.getGraphicsContext2D();
         startGame();
@@ -58,52 +135,68 @@ public class GameController {
 
     public void startGame() {
         PlayField playField = PlayField.getInstance();
+
         playField.setGc(graphicsContext);
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), e -> run(graphicsContext)));
+        playField.paintBackground();
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(5), e -> run(graphicsContext)));
         timeline.setCycleCount(Timeline.INDEFINITE);
         canvas.setOnMouseClicked(e -> gameStarted = true);
-        playField.setBackground();
         timeline.play();
     }
 
+
     private void run(GraphicsContext gc) {
-        PlayField playField = PlayField.getInstance();
-        Ball ball = new Ball();
-        playField.setBackground();
+        gc.setFill(Color.BLACK);
+        gc.fillRect(0, 0, playField.width, playField.height);
 
         int xBallPosition = ball.getxBallPostition();
+        // System.out.println(xBallPosition);
         int yBallPosition = ball.getyBallPosition();
-        int xBallSpeed = ball.getxBallSpeed();
-        int yBallSpeed = ball.getyBallSpeed();
+        float xBallSpeed = ball.getxBallSpeed();
+        float yBallSpeed = ball.getyBallSpeed();
         int width = playField.getWidth();
         int height = playField.getHeight();
+        gc.setFill(Color.BLUE);
+        gc.fillText(scoreP1 + "      " + scoreP2, width / 2, 100);
+
+
         if (gameStarted) {
             xBallPosition += xBallSpeed;
             ball.setxBallPosition(xBallPosition);
             yBallPosition += yBallSpeed;
             ball.setyBallPosition(yBallPosition);
-            ball.setBall();
+            ball.setBall(gc);
+
             if (xBallPosition < width - (width / 4)) {
                 // set the bar on yBallPosition - height of bar / 2
             } else {
                 // yBarPosition = yBallPosition > yBarPosition + barHeight / 2 ?yBarPosition +=1: yBarPosition - 1;
             }
-        } else {
-            Effect glow = new Glow(100.0);
-            gc.setEffect(glow);
-            gc.setStroke(Color.ORANGE);
-            gc.setTextAlign(TextAlignment.CENTER);
-            gc.setFont(Font.font(java.awt.Font.SERIF, 46));
-            gc.strokeText("Click to start", width / 2, height / 2);
-            xBallPosition = width / 2;
-            yBallPosition = height / 2;
-            xBallSpeed = new Random().nextInt(2) == 0 ? 1 : -1;
-            yBallSpeed = new Random().nextInt(2) == 0 ? 1 : -1;
         }
-        if (yBallPosition > height || yBallPosition < 0) {
-            yBallSpeed *= -1;
+
+        if (ball.yCollision(height)) {
+            System.out.println("Oben/unten abgebounced");
+            ball.setyBallSpeed(yBallSpeed * -1);
+            playWallHitSound();
         }
-        /*if (xBallPosition < 'xBarPositionPlayer1' - 'BarWidth'){
+        if (ball.xCollision(width)) {
+            //System.out.println("Links/Rechts abgebounced");
+            String WhoScored = checkScores.checkIfScored(ball.getxBallPostition(), this.player1.getBar().getXCord(), this.player2.getBar().getXCord(), this.player2.getBar().getWidht());
+            if (WhoScored.equals("p1")) {
+                this.scoreP1++;
+            } else {
+                this.scoreP2++;
+            }
+
+            gameStarted = false;
+            ball.resetBall();
+
+            ball.setxBallSpeed(xBallSpeed * -1);
+        }
+        ball.checkContact2Player1(player1);
+        ball.checkContact2Player2(player2);
+        /*
+        if (xBallPosition < 'xBarPositionPlayer1' - 'BarWidth'){
             scoreP2++;
             gameStarted = false;
         }
@@ -121,36 +214,21 @@ public class GameController {
             xBallSpeed += 1 * Math.signum(xBallSpeed);
             xBallSpeed *= -1;
             yBallSpeed *= -1;
-        }*/
-        gc.fillText(scoreP1 + " " + scoreP2, width / 2, 100);
-        ;
-        bar.setBar(graphicsContext);
-        ball.setBall();
-    }
-
-    public void setWidthAndHeight() {
-        PlayField playField = PlayField.getInstance();
-        if (screenWidth <= 800 && screenHeight <= 600) {
-            playField.setWidth(600);
-            playField.setHeight(400);
-            setBarMeassures(playField.height, playField.width);
-        } else if (screenWidth <= 1280 && screenHeight <= 768) {
-            playField.setWidth(800);
-            playField.setHeight(600);
-            setBarMeassures(playField.height, playField.width);
-        } else if (screenWidth <= 1920 && screenHeight <= 1080) {
-            playField.setWidth(1000);
-            playField.setHeight(700);
-            setBarMeassures(playField.height, playField.width);
         }
+        */
+        player1.setBar(graphicsContext);
+        player2.setBar(graphicsContext);
+        ball.setBall(gc);
+        roboter.chaseBall(ball.getyBallPosition());
+        //roboter2.chaseBall(ball.getyBallPosition());
     }
 
-    public void setBarMeassures(int length, int width){
-        bar.setLenght(length/4.5);
-        bar.setWidht(width/35);
-        bar.setLeftRectXCord();
-        bar.setLeftRectYCord();
-        bar.setRightRectXCord();
-        bar.setRightRectYCord();
+    private void playWallHitSound() {
+        this.media = new Media(
+                new File(
+                        "src/main/resources/com/example/_2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic/sounds/wallHitSound.mp3").toURI().toString());
+        this.mediaPlayer = new MediaPlayer(media);
+        this.mediaPlayer.play();
     }
+
 }

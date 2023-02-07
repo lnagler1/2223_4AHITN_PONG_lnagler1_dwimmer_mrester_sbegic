@@ -1,91 +1,80 @@
 package com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model;
 
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.media.Media;
 import javafx.scene.paint.Color;
 
+import java.io.File;
+
 public class Bar {
-    private double length;
-    private double width;
+    private double barLength;
+    private double barWidth;
     private final Color color;
-    private double leftRectXCord;
-    private double leftRectYCord;
-    private double rightRectXCord;
-    private double rightRectYCord;
-
+    private double xCord;
+    private double yCord;
+    private static int checkPlayer = 1;
     private PlayField playField = PlayField.getInstance();
-    //private Ball ball = Ball.getInstace();
 
-    public Bar() {
-        this.length = 0;
-        this.width = 0;
-        this.color = Color.WHITE;
+    public Bar(int playfieldHeight, int playfieldWidth, Color color) {
+        setLenght(playfieldHeight/4.5);
+        setWidht(playfieldWidth/35);
+        this.color = color;
+        setXCord();
+        setYCord();
     }
 
-    public void setBar(GraphicsContext graphicsContext) {
-        graphicsContext.setFill(this.color);
-        graphicsContext.fillRect(leftRectXCord, leftRectYCord, this.width, this.length);
 
-        graphicsContext.setFill(this.color);
-        graphicsContext.fillRect(rightRectXCord, rightRectYCord, this.width, this.length);
+    public boolean checkContact2UpperWall(){
+        return this.yCord > 0;
     }
 
-    public void checkContact2Ball() {
-       /* if (ball.getxCords() == this.leftRectXCord && ball.getYCords() == this.leftRectYCord){
-            // play Pong sound
-            // shoot ball in random opposite direction in a certain angle based on the point of impact on the bar
-        } else if (ball.getxCords() == this.rightRectXCord && ball.getYCords() == this.rightRectYCord){
-            // play Pong sound
-            // shoot ball in random opposite direction in a certain angle based on the point of impact on the bar
-        } */
+    public boolean checkContact2LowerWall() {
+        return this.yCord < playField.getHeight() - this.barLength;
     }
 
     public double getLenght() {
-        return this.length;
+        return this.barLength;
     }
 
     public void setLenght(double lenght) {
-        this.length = lenght;
+        this.barLength = lenght;
     }
 
     public double getWidht() {
-        return width;
+        return barWidth;
     }
 
     public void setWidht(int widht) {
-        this.width = widht;
+        this.barWidth = widht;
     }
 
+    public void setXCord() {
 
-    public double getLeftRectXCord() {
-        return leftRectXCord;
+        if(checkPlayer == 1) {
+            this.xCord = this.barWidth;
+            checkPlayer++;
+        } else if(checkPlayer == 2){
+            this.xCord = playField.width - this.barWidth * 2;
+            checkPlayer++;
+        }
     }
 
-    public void setLeftRectXCord() {
-        this.leftRectXCord = this.width;
+    public void setYCord() {
+        this.yCord = playField.height / 2 - this.barLength / 2;
     }
 
-    public double getLeftRectYCord() {
-        return leftRectYCord;
+    public void setYCord(int yChange) {
+        this.yCord += yChange;
     }
 
-    public void setLeftRectYCord() {
-        this.leftRectYCord = playField.height / 2 - this.length / 2;
+    public double getXCord() {
+        return xCord;
     }
 
-    public double getRightRectXCord() {
-        return rightRectXCord;
+    public double getYCord() {
+        return yCord;
     }
 
-    public void setRightRectXCord() {
-        this.rightRectXCord = playField.width - this.width * 2;
-    }
-
-
-    public double getRightRectYCord() {
-        return rightRectYCord;
-    }
-
-    public void setRightRectYCord() {
-        this.rightRectYCord = playField.height / 2 - this.length / 2;
+    public Color getColor() {
+        return color;
     }
 }

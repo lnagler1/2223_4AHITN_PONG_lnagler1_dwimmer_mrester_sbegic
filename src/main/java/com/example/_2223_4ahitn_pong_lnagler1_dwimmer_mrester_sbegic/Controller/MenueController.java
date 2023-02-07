@@ -5,16 +5,17 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.File;
+import java.util.Hashtable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,16 +24,28 @@ public class MenueController {
     public ChoiceBox cbBar;
     public Button btFinish;
     public Button btExit;
+    public CheckBox checkBoxVersusKi;
     Player player1;
     Player player2;
-    int count=0;
+    int count = 0;
     String temporaryName;
+    Hashtable<String, Color> color_dict = new Hashtable<String, Color>();
 
-    public void initialize() throws IOException {
-        cbBar.setItems(FXCollections.observableArrayList(
-                "Blau", "Rot", "Gelb", "Grün"));
-        cbBar.setValue("Blau");
+    public MediaPlayer mediaPlayer;
+    public Media media;
 
+    public void initialize() {
+        cbBar.setItems(FXCollections.observableArrayList("BLUE", "RED", "YELLOW", "GREEN"));
+        cbBar.setValue("BLUE");
+
+        color_dict.put("BLUE", Color.BLUE);
+        color_dict.put("RED", Color.RED);
+        color_dict.put("YELLOW", Color.YELLOW);
+        color_dict.put("GREEN", Color.GREEN);
+        media = new Media(new File("src/main/resources/com/example/_2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic/sounds/backgroundMusic.mp3").toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setVolume(0.025);
+        mediaPlayer.setAutoPlay(true);
     }
 
     public void onFinishButtonClicked(ActionEvent actionEvent) {
@@ -43,7 +56,7 @@ public class MenueController {
         Matcher matcher = pattern.matcher(name);
         boolean pat1 = matcher.find();
 
-        if ( name.equals("") ||  name.equals(temporaryName) ||  pat1) {
+        if (name.equals("") || name.equals(temporaryName) || pat1) {
             System.out.println("Error");
             //logs.InputError();
             Stage window = new Stage();
@@ -77,31 +90,31 @@ public class MenueController {
 
         } else {
             Stage stage = (Stage) btFinish.getScene().getWindow();
-            if (count == 0){
-                player1 = new Player(name, color);
+            if (count == 0) {
+                player1 = new Player(name, color_dict.get(color));
                 temporaryName = name;
                 count++;
+                tfPlayerName.clear();
                 stage.close();
-            }else if (count == 1){
-                player2 = new Player(name, color);
+                stage.show();
+                cbBar.setValue("BLUE");
+            } else if (count == 1) {
+                player2 = new Player(name, color_dict.get(color));
+                count++;
                 stage.close();
             }
 
-
+            if (count == 2) {
+                GameController g = new GameController(player1, player2);
+                g.loadPlayField();
+            }
         }
-
-
     }
 
     public void closeMenue() {
-
         Stage s = (Stage) btExit.getScene().getWindow();
         s.close();
     }
-
-
-
-
 
 
 }
