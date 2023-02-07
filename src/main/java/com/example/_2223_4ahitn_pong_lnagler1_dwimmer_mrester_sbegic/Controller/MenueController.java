@@ -19,7 +19,7 @@ import java.util.Hashtable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MenueController {
+public class MenueController extends AbstractController {
     public TextField tfPlayerName;
     public ChoiceBox cbBar;
     public Button btFinish;
@@ -117,4 +117,35 @@ public class MenueController {
     }
 
 
+    public void highscoreClicked(ActionEvent actionEvent)  {
+
+        try {
+            AbstractController c = this.loadFxmlFile(
+                    "highscores.fxml",
+                    "highscores",
+                    ((Button) actionEvent.getSource()).getScene().getWindow(),
+                    AbstractController.class
+
+            );
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
+    @Override
+    public void addSubscriber(SubscriberInterface<Boolean> sub) {
+
+    }
+
+    @Override
+    public void removeSubscriber(SubscriberInterface<Boolean> sub) {
+
+    }
+
+    @Override
+    public void notifySubscriber(Boolean what) {
+
+    }
 }

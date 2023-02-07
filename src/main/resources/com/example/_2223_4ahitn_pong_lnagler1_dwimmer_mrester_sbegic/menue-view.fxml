@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="400.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.Controller.MenueController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="400.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.Controller.MenueController">
    <children>
       <VBox id="pane" layoutY="-1.0" prefHeight="300.0" prefWidth="400.0" stylesheets="@style.css">
          <children>
@@ -69,7 +69,15 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="26.0" prefWidth="362.0">
                      <HBox.margin>
-                        <Insets top="28.0" />
+                        <Insets bottom="10.0" top="28.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button id="field" mnemonicParsing="false" onAction="#highscoreClicked" stylesheets="@style.css" text="Highscores">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <HBox.margin>
+                        <Insets left="10.0" top="18.0" />
                      </HBox.margin>
                      <children>
                         <Button id="field" fx:id="btFinish" mnemonicParsing="false" onAction="#onFinishButtonClicked" stylesheets="@style.css" text="Finish">
