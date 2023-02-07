@@ -6,7 +6,6 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -98,6 +97,17 @@ public class MenueController {
                 stage.close();
                 stage.show();
                 cbBar.setValue("BLUE");
+                if (checkBoxVersusKi.isSelected()){
+
+                    player2 = new Player("NPC", color_dict.get("BLUE"));
+                    count = 2;
+                    stage.close();
+                }else{
+                    stage.close();
+                    stage.show();
+                }
+
+
             } else if (count == 1) {
                 player2 = new Player(name, color_dict.get(color));
                 count++;
@@ -106,8 +116,11 @@ public class MenueController {
 
             if (count == 2) {
                 GameController g = new GameController(player1, player2);
+            if (count== 2){
+                GameController g = new GameController(player1, player2, checkBoxVersusKi.isSelected());
                 g.loadPlayField();
             }
+
         }
     }
 
