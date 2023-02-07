@@ -191,7 +191,7 @@ public class GameController {
             gameStarted = false;
         }
         if( ((xBallPosition + ball.getRadius() > 'xBarPositionPlayer2')
-                && yBallPosition >= 'yBarPositionPlayer2'
+                &&   >= 'yBarPositionPlayer2'
                 && yBallPosition <= 'yBarPositionPlayer2' + 'BarHeight') ||
                 ((xBallPosition < 'xBarPositionPlayer1' + 'BarWidth')
                         && yBallPosition >= 'yBarPositionPlayer1'
