@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 public class Highscore {
 
-
+//Highscore
     private String name;
     private int score;
 
