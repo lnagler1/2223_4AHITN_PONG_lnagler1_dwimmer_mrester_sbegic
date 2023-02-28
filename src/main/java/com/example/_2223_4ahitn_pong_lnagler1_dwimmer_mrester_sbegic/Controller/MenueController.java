@@ -1,6 +1,5 @@
 package com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.Controller;
 
-import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.Client.Client;
 import com.example._2223_4ahitn_pong_lnagler1_dwimmer_mrester_sbegic.model.Player;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -15,7 +14,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Hashtable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
